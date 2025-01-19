@@ -1,6 +1,7 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import notFound from './middleware/notFound';
 const app: Application = express();
 
 app.use(express.json());
@@ -11,5 +12,8 @@ app.use(cookieParser());
 app.get('/', (req: Request, res: Response) => {
     res.send('Blog server is running...');
 });
+
+// Route not found
+app.use('*', notFound);
 
 export default app;
