@@ -6,7 +6,7 @@ import httpStatus from "http-status";
 
 const verifyOtpForNewUser = catchAsync(async (req: Request, res: Response) => {
     const { email, otp } = req.body;
-
+    
     const result = await authService.verifyOtpForNewUserIntoDB(email, otp);
 
     sendResponse(res, {

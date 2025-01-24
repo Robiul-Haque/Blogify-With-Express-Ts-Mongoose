@@ -15,7 +15,7 @@ const signUp: RequestHandler = catchAsync(async (req: Request, res: Response) =>
     sendResponse(res, {
         statusCode: httpStatus.CREATED,
         success: true,
-        message: "Verify Your Account With OTP, Check your Email",
+        message: "Verify Your Account Check your Email",
         data: result
     });
 });

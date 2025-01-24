@@ -19,7 +19,7 @@ const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
         otpExpiry: null
     }
 
-    const res = await User.findOneAndUpdate({email}, updateUserData);
+    const res = await User.findOneAndUpdate({email}, updateUserData, {new: true}).select("-_id email isVerified");
     return res;
 }
 
