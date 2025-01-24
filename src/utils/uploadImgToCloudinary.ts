@@ -9,7 +9,7 @@ cloudinary.config({
 });
 
 // Function to upload an image to Cloudinary and return the uploaded image details
-export const uploadImageToCloudinary = async (imgName: string, imgPath: string) => {
+export const uploadImgToCloudinary = async (imgName: string, imgPath: string) => {
     return new Promise((resolve, reject) => {
         cloudinary.uploader.upload(
             imgPath,

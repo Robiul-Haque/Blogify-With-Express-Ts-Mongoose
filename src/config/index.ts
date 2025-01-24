@@ -13,4 +13,7 @@ export default {
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
     salt_rounds: process.env.SALT_ROUNDS,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    email: process.env.EMAIL,
 }
