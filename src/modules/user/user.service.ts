@@ -9,15 +9,15 @@ import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
 
 const signUpIntoDB = async (img: any, payload: TUser) => {
     // Check if a user already exists with the given email. If so, delete the uploaded image and throw an error.
-    const userExists = await User.findOne({ email: payload.email });
-    if (userExists) {
+    const isUserExists = await User.findOne({ email: payload.email });
+    if (isUserExists) {
         deleteImgOnCloudinary(img.filename);
         throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "User already exists with this email");
     }
 
     if (img) {
         const imagePath = img?.path;
-        const imgName = imagePath.split("/").pop()?.split(".")[0] || "";
+        const imgName = imagePath.split("/").pop().split(".")[0] || "";
         const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
 
         // Add the uploaded image's URL and public ID to the user payload.

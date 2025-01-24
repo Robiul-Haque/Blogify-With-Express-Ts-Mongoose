@@ -1,5 +1,4 @@
-import { Model } from "mongoose";
-
+// Define the User type
 export type TUser = {
     name: string;
     email: string;
