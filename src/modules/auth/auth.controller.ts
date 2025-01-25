@@ -10,7 +10,7 @@ const verifyOtpForNewUser = catchAsync(async (req: Request, res: Response) => {
     const result = await authService.verifyOtpForNewUserIntoDB(email, otp);
 
     sendResponse(res, {
-        statusCode: httpStatus.CREATED,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Account Verify Successfully",
         data: result

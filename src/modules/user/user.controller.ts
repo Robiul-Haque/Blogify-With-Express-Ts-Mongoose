@@ -20,6 +20,19 @@ const signUp: RequestHandler = catchAsync(async (req: Request, res: Response) =>
     });
 });
 
+const getAllUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    // Call the service method to get all user.
+    const result = await userService.getAllUserInToDB();
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data retriev successfully",
+        data: result
+    });
+});
+
 export const userController = {
-    signUp
+    signUp,
+    getAllUser
 }
