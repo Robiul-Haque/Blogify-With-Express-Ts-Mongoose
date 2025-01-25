@@ -1,5 +1,3 @@
-import AppError from "../../errors/appError";
-import httpStatus from "http-status";
 import { TUser } from "./user.interface";
 import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
 import sendEmail from "../../utils/sendEmail";
@@ -60,12 +58,6 @@ const signUpIntoDB = async (img: any, payload: TUser) => {
     }
 }
 
-const getAllUserInToDB = async () => {
-    const res = await User.find({isVerified: true}).select("name email image role isVerified");
-    return res;
-}
-
 export const userService = {
-    signUpIntoDB,
-    getAllUserInToDB
+    signUpIntoDB
 }
