@@ -16,6 +16,21 @@ const getAdmin: RequestHandler = catchAsync(async (req: Request, res: Response) 
     });
 });
 
+const updateAdmin: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const img = req.file;
+    const data = req.body;
+
+    // Call the service method to update admin info.
+    const result = await adminService.updateAdminInToDB(img, data);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data update successfully",
+        data: result
+    });
+});
+
 const getAllUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     // Call the service method to get all user.
     const result = await adminService.getAllUserInToDB();
@@ -30,5 +45,6 @@ const getAllUser: RequestHandler = catchAsync(async (req: Request, res: Response
 
 export const adminController = {
     getAdmin,
+    updateAdmin,
     getAllUser,
 }
