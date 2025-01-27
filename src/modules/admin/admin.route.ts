@@ -16,4 +16,7 @@ router.patch("/update-admin", upload.single("image"), bodyParser, validateReques
 // Endpoint to get all users from the database.
 router.get("/get-all-user", adminController.getAllUser);
 
+// Endpoint to delete a user from the database.
+router.delete("/delete-user/:id", adminController.deleteUser);
+
 export const adminRoutes = router;

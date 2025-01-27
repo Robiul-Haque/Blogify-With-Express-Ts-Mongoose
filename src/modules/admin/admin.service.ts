@@ -3,18 +3,19 @@ import { User } from "../user/user.model";
 import { TUpdateAdmin } from "./admin.interface";
 
 const getAdminInToDB = async () => {
+    // Retrieve all users who have the
     const res = await User.find({ role: "admin" }).select("_id name email image role isVerified");
     return res;
 }
 
 const updateAdminInToDB = async (img: any, payload: TUpdateAdmin) => {
+    // Delete old image and uploaded new image, update the image in the cloudinary and add the new image URL and public ID to the user payload.
     if (img) {
         const data = await User.findById(payload?.id);
         const imagePath = img?.path;
         const imgName = imagePath.split("/").pop().split(".")[0] || "";
         const { public_id, secure_url } = await updateImgToCloudinary(imgName, imagePath, data?.image?.publicId as string) as { public_id: string, secure_url: string };
 
-        // Add the uploaded image's URL and public ID to the user payload.
         payload.image = {
             url: secure_url,
             publicId: public_id,
@@ -26,12 +27,20 @@ const updateAdminInToDB = async (img: any, payload: TUpdateAdmin) => {
 }
 
 const getAllUserInToDB = async () => {
-    const res = await User.find({ isVerified: true }).sort({ createdAt: "desc" }).select("_id name email image role isVerified");
+    // Retrieve all users who have verified their email addresses.
+    const res = await User.find({ isVerified: true }).sort({ desc: -1 }).select("_id name email image role isVerified");
     return res;
+}
+
+const deleteUserInToDB = async (id: string) => {
+    // Delete a user from the database
+    await User.findByIdAndDelete(id);
+    return null;
 }
 
 export const adminService = {
     getAllUserInToDB,
     updateAdminInToDB,
     getAdminInToDB,
+    deleteUserInToDB,
 }

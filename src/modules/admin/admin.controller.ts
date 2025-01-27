@@ -38,7 +38,21 @@ const getAllUser: RequestHandler = catchAsync(async (req: Request, res: Response
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Data retriev successfully",
+        message: "Data retrieve successfully",
+        data: result
+    });
+});
+
+const deleteUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    // Call the service method to delete user.
+    const result = await adminService.deleteUserInToDB(id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data delete successfully",
         data: result
     });
 });
@@ -47,4 +61,5 @@ export const adminController = {
     getAdmin,
     updateAdmin,
     getAllUser,
+    deleteUser,
 }
