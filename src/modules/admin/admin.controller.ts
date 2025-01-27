@@ -43,6 +43,20 @@ const getAllUser: RequestHandler = catchAsync(async (req: Request, res: Response
     });
 });
 
+const updateUserBlocked: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const { id, status } = req.body;
+
+    // Call the service method to update user blocked status.
+    const result = await adminService.updateUserBlockedInToDB(id, status);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "User status update successfully",
+        data: result
+    });
+});
+
 const deleteUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const id = req.params.id;
 
@@ -61,5 +75,6 @@ export const adminController = {
     getAdmin,
     updateAdmin,
     getAllUser,
+    updateUserBlocked,
     deleteUser,
 }

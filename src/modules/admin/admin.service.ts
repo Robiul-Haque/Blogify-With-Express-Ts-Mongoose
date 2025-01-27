@@ -28,7 +28,13 @@ const updateAdminInToDB = async (img: any, payload: TUpdateAdmin) => {
 
 const getAllUserInToDB = async () => {
     // Retrieve all users who have verified their email addresses.
-    const res = await User.find({ isVerified: true }).sort({ createdAt: "desc" }).select("_id name email image role isVerified");
+    const res = await User.find({ isVerified: true }).sort({ createdAt: "desc" }).select("_id name email image role isVerified isBlocked");
+    return res;
+}
+
+const updateUserBlockedInToDB = async (id: string, payload: any) => {
+    // Update the user blocked status in the database.
+    const res = await User.findByIdAndUpdate(id, { isBlocked: payload }, { new: true }).select("-_id isBlocked");
     return res;
 }
 
@@ -42,5 +48,6 @@ export const adminService = {
     getAllUserInToDB,
     updateAdminInToDB,
     getAdminInToDB,
+    updateUserBlockedInToDB,
     deleteUserInToDB,
 }

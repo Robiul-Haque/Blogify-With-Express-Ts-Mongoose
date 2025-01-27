@@ -16,6 +16,9 @@ router.patch("/update-admin", upload.single("image"), bodyParser, validateReques
 // Endpoint to get all users from the database.
 router.get("/get-all-user", adminController.getAllUser);
 
+// Endpoint to update user blocked status in the database.
+router.patch("/update-user-blocked", validateRequest(adminValidation.updateUserBlockedSchema), adminController.updateUserBlocked);
+
 // Endpoint to delete a user from the database.
 router.delete("/delete-user/:id", adminController.deleteUser);
 
