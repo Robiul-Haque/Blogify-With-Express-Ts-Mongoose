@@ -1,3 +1,4 @@
+// update admin type
 export type TUpdateAdmin = {
     id: string;
     name: string;
