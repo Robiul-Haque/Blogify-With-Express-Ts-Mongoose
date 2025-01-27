@@ -9,6 +9,7 @@ export type TUser = {
     password: string;
     role: 'user' | 'admin';
     isVerified: boolean;
+    isBlocked: boolean;
     otp: string | null;
     otpExpiry: Date | null;
 }

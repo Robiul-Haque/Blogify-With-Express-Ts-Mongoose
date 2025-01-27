@@ -37,6 +37,10 @@ const userSchema: Schema = new Schema(
             type: Boolean,
             default: false
         },
+        isBlocked: {
+            type: Boolean,
+            default: false
+        },
         otp: {
             type: String,
             default: null
@@ -44,7 +48,7 @@ const userSchema: Schema = new Schema(
         otpExpiry: {
             type: Date,
             default: null
-        },
+        }
     },
     {
         timestamps: true

@@ -28,7 +28,7 @@ const updateAdminInToDB = async (img: any, payload: TUpdateAdmin) => {
 
 const getAllUserInToDB = async () => {
     // Retrieve all users who have verified their email addresses.
-    const res = await User.find({ isVerified: true }).sort({ desc: -1 }).select("_id name email image role isVerified");
+    const res = await User.find({ isVerified: true }).sort({ createdAt: "desc" }).select("_id name email image role isVerified");
     return res;
 }
 
