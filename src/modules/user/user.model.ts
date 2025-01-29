@@ -4,7 +4,7 @@ import config from "../../config";
 import bcrypt from "bcrypt";
 
 const userSchema: Schema = new Schema(
-    {
+{
         name: {
             type: String,
             required: true
