@@ -19,6 +19,19 @@ const createBlog: RequestHandler = catchAsync(async (req: Request, res: Response
     });
 });
 
+const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    // Call the service method to get all blog in the database.
+    const result = await blogService.getAllBlogIntoDB();
+
+    sendResponse(res, {
+        statusCode: httpStatus.CREATED,
+        success: true,
+        message: "Data retrieved successfully",
+        data: result
+    });
+});
+
 export const blogController = {
     createBlog,
+    getAllBlog,
 }

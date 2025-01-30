@@ -18,6 +18,13 @@ const createBlogIntoDB = async (img: any, payload: TBlog) => {
     return res;
 }
 
+const getAllBlogIntoDB = async () => {
+    const res = await Blog.find({ isPublished: true });
+    // .populate('author').populate('comments')
+    return res;
+}
+
 export const blogService = {
     createBlogIntoDB,
+    getAllBlogIntoDB,
 };

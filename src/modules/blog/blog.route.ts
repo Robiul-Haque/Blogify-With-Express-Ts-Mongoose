@@ -10,4 +10,7 @@ const router = Router();
 // Endpoint for create blog. Handles image upload, validates request body, and creates a new blog.
 router.post("/create-blog", upload.single("image"), bodyParser, validateRequest(blogValidation.createBlogSchema), blogController.createBlog);
 
+// Endpoint for get all blog.
+router.get("/get-all-blog", blogController.getAllBlog);
+
 export const blogRoutes = router;
