@@ -10,13 +10,13 @@ const createCommentIntoDB = async (payload: TComment) => {
 }
 const updateCommentIntoDB = async (payload: TUpdateComment) => {
     // Update comment into DB
-    const res = await Comment.findByIdAndUpdate({ _id: payload.id }, { comment: payload.comment }, { new: true }).select("-createdAt -updatedAt -__v");
+    const res = await Comment.findByIdAndUpdate(payload.id, { comment: payload.comment }, { new: true }).select("-createdAt -updatedAt -__v");
     return res;
 }
 
 const deleteCommentIntoDB = async (id: string) => {
     // Delete comment into DB
-    await Comment.findByIdAndDelete(id);
+    await Comment.findByIdAndUpdate(id, { isDeleted: true });
     return null;
 }
 

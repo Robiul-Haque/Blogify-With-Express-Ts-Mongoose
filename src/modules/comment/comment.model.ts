@@ -15,6 +15,10 @@ const commentSchema: Schema = new Schema<TComment>(
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
+        isDeleted: {
+            type: Boolean,
+            default: false
+        }
     },
     { timestamps: true }
 );
