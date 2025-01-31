@@ -10,12 +10,10 @@ const commentSchema: Schema = new Schema<TComment>(
         blog: {
             type: Schema.Types.ObjectId,
             ref: 'Blog',
-            required: true
         },
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: true
         },
     },
     { timestamps: true }

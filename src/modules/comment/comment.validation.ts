@@ -8,6 +8,14 @@ const commentSchema = z.object({
     })
 });
 
+const updateCommentSchema = z.object({
+    body: z.object({
+        id: z.string(),
+        comment: z.string(),
+    })
+});
+
 export const commentValidation = {
     commentSchema,
+    updateCommentSchema,
 }
