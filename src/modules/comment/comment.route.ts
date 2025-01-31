@@ -11,4 +11,7 @@ route.post("/create-comment", validateRequest(commentValidation.commentSchema), 
 // API endpoint for updating a comment for blog
 route.patch("/update-comment", validateRequest(commentValidation.updateCommentSchema), commentController.updateComment);
 
+// API endpoint for deleting a comment for blog
+route.delete("/delete-comment/:id", commentController.deleteComment);
+
 export const commentRoutes = route;
