@@ -35,7 +35,7 @@ const getAllComment: RequestHandler = catchAsync(async (req: Request, res: Respo
 const updateComment: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const updateData = req.body;
 
-    // Call the service method to create a new blog in the database.
+    // Call the service method to update blog in the database.
     const result = await commentService.updateCommentIntoDB(updateData);
 
     sendResponse(res, {
