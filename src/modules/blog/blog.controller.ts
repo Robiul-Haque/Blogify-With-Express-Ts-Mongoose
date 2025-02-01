@@ -24,7 +24,20 @@ const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response
     const result = await blogService.getAllBlogIntoDB();
 
     sendResponse(res, {
-        statusCode: httpStatus.CREATED,
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data retrieved successfully",
+        data: result
+    });
+});
+
+const getBlogById: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const blogId = req.params.id;
+    // Call the service method to get single blog in the database.
+    const result = await blogService.getBlogByIdIntoDB(blogId);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Data retrieved successfully",
         data: result
@@ -34,4 +47,5 @@ const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 export const blogController = {
     createBlog,
     getAllBlog,
+    getBlogById,
 }
