@@ -18,6 +18,20 @@ const createComment: RequestHandler = catchAsync(async (req: Request, res: Respo
     })
 });
 
+const getAllComment: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    // Call the service method to get all blog in the database.
+    const result = await commentService.getAllCommentIntoDB(id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data retrieved successfully",
+        data: result
+    })
+});
+
 const updateComment: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const updateData = req.body;
 
@@ -48,6 +62,7 @@ const deleteComment: RequestHandler = catchAsync(async (req: Request, res: Respo
 
 export const commentController = {
     createComment,
+    getAllComment,
     updateComment,
     deleteComment,
 };

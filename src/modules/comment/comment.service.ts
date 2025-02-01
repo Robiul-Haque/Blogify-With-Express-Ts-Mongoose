@@ -8,6 +8,13 @@ const createCommentIntoDB = async (payload: TComment) => {
     await Blog.findByIdAndUpdate(payload.blog, { $push: { comments: res._id } });
     return res;
 }
+
+const getAllCommentIntoDB = async (id: string) => {
+    // Get all comment into DB
+    const res = await Comment.find({ blog: id, isDeleted: false }).select("-isDeleted -__v");
+    return res;
+}
+
 const updateCommentIntoDB = async (payload: TUpdateComment) => {
     // Update comment into DB
     const res = await Comment.findByIdAndUpdate(payload.id, { comment: payload.comment }, { new: true }).select("-createdAt -updatedAt -__v");
@@ -22,6 +29,7 @@ const deleteCommentIntoDB = async (id: string) => {
 
 export const commentService = {
     createCommentIntoDB,
+    getAllCommentIntoDB,
     updateCommentIntoDB,
     deleteCommentIntoDB,
 }

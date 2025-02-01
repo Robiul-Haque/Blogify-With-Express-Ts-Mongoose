@@ -8,6 +8,9 @@ const route = Router();
 // API endpoint for creating a comment for blog
 route.post("/create-comment", validateRequest(commentValidation.commentSchema), commentController.createComment);
 
+// API endpoint for get all comment for blog
+route.get("/get-all-comment/:id", commentController.getAllComment);
+
 // API endpoint for updating a comment for blog
 route.patch("/update-comment", validateRequest(commentValidation.updateCommentSchema), commentController.updateComment);
 
