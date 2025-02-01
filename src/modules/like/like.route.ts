@@ -5,8 +5,10 @@ import { likeController } from "./like.controller";
 
 const route = Router();
 
+// API endpoint for like blog.
 route.post("/like", validateRequest(likeValidation.likeSchema), likeController.Like);
 
+// API endpoint for unlike blog.
 route.delete("/unlike/:id", likeController.unLike);
 
 export const likeRoutes = route;
