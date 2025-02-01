@@ -8,5 +8,5 @@ const likeSchema = z.object({
 });
 
 export const likeValidation = {
-    likeSchema,
+    likeSchema
 };

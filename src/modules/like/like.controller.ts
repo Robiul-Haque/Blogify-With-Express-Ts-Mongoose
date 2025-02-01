@@ -4,20 +4,35 @@ import { likeService } from "./like.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
-const createLike: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+const Like: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const likeData = req.body;
 
     // Call the service method to create like in the database.
-    const result = await likeService.createLikeIntoDB(likeData);
+    const result = await likeService.LikeIntoDB(likeData);
 
     sendResponse(res, {
         statusCode: httpStatus.CREATED,
         success: true,
-        message: "Like create successfully",
+        message: "Like",
+        data: result
+    })
+});
+
+const unLike: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    // Call the service method to unlike in the database.
+    const result = await likeService.unLikeIntoDB(id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Unlike",
         data: result
     })
 });
 
 export const likeController = {
-    createLike
+    Like,
+    unLike
 }

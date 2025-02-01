@@ -5,6 +5,8 @@ import { likeController } from "./like.controller";
 
 const route = Router();
 
-route.post("/create-like", validateRequest(likeValidation.likeSchema), likeController.createLike);
+route.post("/like", validateRequest(likeValidation.likeSchema), likeController.Like);
+
+route.delete("/unlike/:id", likeController.unLike);
 
 export const likeRoutes = route;
