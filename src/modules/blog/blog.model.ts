@@ -6,11 +6,9 @@ const blogSchema: Schema = new Schema<TBlog>(
         image: {
             url: {
                 type: String,
-                required: true
             },
             publicId: {
                 type: String,
-                required: true
             }
         },
         title: {
