@@ -3,6 +3,16 @@ import { TBlog } from "./blog.interface";
 
 const blogSchema: Schema = new Schema<TBlog>(
     {
+        image: {
+            url: {
+                type: String,
+                required: true
+            },
+            publicId: {
+                type: String,
+                required: true
+            }
+        },
         title: {
             type: String,
             required: true

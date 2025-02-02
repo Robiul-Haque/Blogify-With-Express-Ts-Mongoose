@@ -14,8 +14,8 @@ router.post("/create-blog", upload.single("image"), bodyParser, validateRequest(
 router.get("/get-all-blog", blogController.getAllBlog);
 
 // Endpoint for get blog by ID.
-router.get("/get-blog/:id", blogController.getBlogById);
+router.get("/get-blog/:id", blogController.getBlog);
 
-// router.put("/update-blog", upload.single("image"), bodyParser, validateRequest(blogValidation.updateBlogSchema), blogController.getBlogById);
+router.patch("/update-blog", upload.single("image"), bodyParser, validateRequest(blogValidation.updateBlogSchema), blogController.updateBlog);
 
 export const blogRoutes = router;

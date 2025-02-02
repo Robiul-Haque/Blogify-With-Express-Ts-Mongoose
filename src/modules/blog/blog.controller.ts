@@ -31,10 +31,10 @@ const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response
     });
 });
 
-const getBlogById: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+const getBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const blogId = req.params.id;
     // Call the service method to get single blog in the database.
-    const result = await blogService.getBlogByIdIntoDB(blogId);
+    const result = await blogService.getBlogIntoDB(blogId);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -44,8 +44,25 @@ const getBlogById: RequestHandler = catchAsync(async (req: Request, res: Respons
     });
 });
 
+const updateBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const img = req.file;
+    const { id, data } = req.body;
+
+    // Call the service method to update a blog in the database.
+    // Call the service method to get single blog in the database.
+    const result = await blogService.updateBlogIntoDB(id, img, data);
+
+    sendResponse(res, {
+        statusCode: httpStatus.CREATED,
+        success: true,
+        message: "Blog updated successfully",
+        data: result
+    });
+});
+
 export const blogController = {
     createBlog,
     getAllBlog,
-    getBlogById,
+    getBlog,
+    updateBlog,
 }
