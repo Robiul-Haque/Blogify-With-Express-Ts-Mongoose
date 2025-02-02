@@ -11,9 +11,12 @@ const createBlogSchema = z.object({
 
 const updateBlogSchema = z.object({
     body: z.object({
-        title: z.string(),
-        content: z.string(),
-        category: z.string(),
+        id: z.string(),
+        data: z.object({
+            title: z.string(),
+            content: z.string(),
+            category: z.string(),
+        }),
     })
 });
 

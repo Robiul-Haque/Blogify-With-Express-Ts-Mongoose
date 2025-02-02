@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export type TBlog = {
-    image?: {
+    image: {
         url: string;
         publicId: string;
     };
@@ -12,4 +12,14 @@ export type TBlog = {
     likes?: number;
     comments?: mongoose.Schema.Types.ObjectId[];
     isPublished?: boolean;
+}
+
+export type TUpdateBlog = {
+    image?: {
+        url: string;
+        publicId: string;
+    };
+    title: string;
+    content: string;
+    category: string;
 }

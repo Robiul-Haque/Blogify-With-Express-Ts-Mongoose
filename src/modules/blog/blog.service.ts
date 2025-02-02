@@ -1,7 +1,7 @@
 import AppError from "../../errors/appError";
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
-import { TBlog } from "./blog.interface";
+import { TBlog, TUpdateBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
 import HttpStatus from "http-status";
 
@@ -11,7 +11,6 @@ const createBlogIntoDB = async (img: any, payload: TBlog) => {
         const imgName = imagePath.split("/").pop()?.split(".")[0] || "";
         // Upload the image to Cloudinary and store the URL and public ID
         const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
-
         payload.image = {
             url: secure_url,
             publicId: public_id,
@@ -32,7 +31,7 @@ const getBlogIntoDB = async (id: string) => {
     return res;
 }
 
-const updateBlogIntoDB = async (id: string, img: any, payload: TBlog) => {
+const updateBlogIntoDB = async (id: string, img: any, payload: TUpdateBlog) => {
     if (img) {
         const data = await Blog.findById(id);
         const imagePath = img?.path;
@@ -45,8 +44,7 @@ const updateBlogIntoDB = async (id: string, img: any, payload: TBlog) => {
             publicId: public_id
         };
     }
-    await Blog.findByIdAndUpdate(id, payload, { new: true });
-    const res = await Blog.findById(id);
+    const res = await Blog.findByIdAndUpdate(id, payload, { new: true });
     return res;
 }
 

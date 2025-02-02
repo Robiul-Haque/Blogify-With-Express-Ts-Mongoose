@@ -49,7 +49,6 @@ const updateBlog: RequestHandler = catchAsync(async (req: Request, res: Response
     const { id, data } = req.body;
 
     // Call the service method to update a blog in the database.
-    // Call the service method to get single blog in the database.
     const result = await blogService.updateBlogIntoDB(id, img, data);
 
     sendResponse(res, {
