@@ -16,6 +16,10 @@ router.get("/get-all-blog", blogController.getAllBlog);
 // Endpoint for get blog by ID.
 router.get("/get-blog/:id", blogController.getBlog);
 
+// Endpoint for update blog. Handles image upload, validates request body, and updates a blog.
 router.patch("/update-blog", upload.single("image"), bodyParser, validateRequest(blogValidation.updateBlogSchema), blogController.updateBlog);
+
+// Endpoint for delete blog by ID.
+router.delete("/delete-blog/:id", blogController.deleteBlog);
 
 export const blogRoutes = router;

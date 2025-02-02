@@ -1,4 +1,5 @@
 import AppError from "../../errors/appError";
+import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
 import { TBlog, TUpdateBlog } from "./blog.interface";
@@ -48,9 +49,19 @@ const updateBlogIntoDB = async (id: string, img: any, payload: TUpdateBlog) => {
     return res;
 }
 
+const deleteBlogIntoDB = async (id: string) => {
+    const data = await Blog.findById(id);
+    if (!data) throw new AppError(HttpStatus.NOT_FOUND, "Blog not found!");
+    // Delete image from cloudinary & database
+    await deleteImgOnCloudinary(data?.image?.publicId as string);
+    await Blog.findByIdAndDelete(id);
+    return null;
+}
+
 export const blogService = {
     createBlogIntoDB,
     getAllBlogIntoDB,
     getBlogIntoDB,
     updateBlogIntoDB,
+    deleteBlogIntoDB,
 };
