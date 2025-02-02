@@ -1,6 +1,8 @@
+import AppError from "../../errors/appError";
 import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
 import { TBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
+import HttpStatus from "http-status";
 
 const createBlogIntoDB = async (img: any, payload: TBlog) => {
     if (img) {
@@ -25,6 +27,7 @@ const getAllBlogIntoDB = async () => {
 
 const getBlogByIdIntoDB = async (id: string) => {
     const res = await Blog.findById(id);
+    if (res?.isPublished === false) throw new AppError(HttpStatus.NOT_FOUND, "Blog is not published yet");
     return res;
 }
 
