@@ -66,7 +66,7 @@ const deleteUser: RequestHandler = catchAsync(async (req: Request, res: Response
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Data delete successfully",
+        message: "User delete successfully",
         data: result
     });
 });
