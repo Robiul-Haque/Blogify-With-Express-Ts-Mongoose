@@ -30,12 +30,16 @@ const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
 const signInIntoDB = async (payload: TLoginUser) => {
     const { email, password } = payload;
 
-    if (!email || !password) {
-        throw new AppError(httpStatus.NOT_FOUND, "Name and password are required");
-    }
+    if (!email || !password) throw new AppError(httpStatus.BAD_REQUEST, "Name and password are required");
 
-    const hashedPassIntoDB = await User.findOne({ email }).select('+password');
-    const passwordMatch = bcrypt.compare(String(password), String(hashedPassIntoDB?.password));
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) throw new AppError(httpStatus.NOT_FOUND, "User not found");
+    if (!existingUser.isVerified) throw new AppError(httpStatus.UNAUTHORIZED, "User is not verified yet");
+    if (existingUser.isBlocked) throw new AppError(httpStatus.UNAUTHORIZED, "User already blocked");
+
+    // Compare the hashed password with the provided password.
+    const passwordMatch = bcrypt.compare(String(password), String(existingUser?.password));
     if (!passwordMatch) throw new AppError(httpStatus.NOT_FOUND, "Password did not match");
 
     // Generate access and refresh token
@@ -47,5 +51,5 @@ const signInIntoDB = async (payload: TLoginUser) => {
 
 export const authService = {
     verifyOtpForNewUserIntoDB,
-    signInIntoDB
+    signInIntoDB,
 }

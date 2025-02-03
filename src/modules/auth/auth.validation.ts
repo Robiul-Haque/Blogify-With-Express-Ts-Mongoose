@@ -7,6 +7,14 @@ const authUserVerifyingSchema = z.object({
     })
 });
 
+const authSignInSchema = z.object({
+    body: z.object({
+        email: z.string().email(),
+        password: z.string(),
+    })
+});
+
 export const authValidation = {
-    authUserVerifyingSchema
+    authUserVerifyingSchema,
+    authSignInSchema,
 }
