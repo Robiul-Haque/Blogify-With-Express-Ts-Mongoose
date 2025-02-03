@@ -1,6 +1,10 @@
 import AppError from "../../errors/appError";
 import { User } from "../user/user.model";
 import httpStatus from "http-status";
+import { TLoginUser } from "./auth.interface";
+import bcrypt from "bcrypt";
+import { createToken } from "../../utils/createToken";
+import config from "../../config";
 
 const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
     // Logic to verify OTP into DB.
@@ -19,10 +23,29 @@ const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
         otpExpiry: null
     }
 
-    const res = await User.findOneAndUpdate({email}, updateUserData, {new: true}).select("-_id email isVerified");
+    const res = await User.findOneAndUpdate({ email }, updateUserData, { new: true }).select("-_id email isVerified");
     return res;
 }
 
+const signInIntoDB = async (payload: TLoginUser) => {
+    const { email, password } = payload;
+
+    if (!email || !password) {
+        throw new AppError(httpStatus.NOT_FOUND, "Name and password are required");
+    }
+
+    const hashedPassIntoDB = await User.findOne({ email }).select('+password');
+    const passwordMatch = bcrypt.compare(String(password), String(hashedPassIntoDB?.password));
+    if (!passwordMatch) throw new AppError(httpStatus.NOT_FOUND, "Password did not match");
+
+    // Generate access and refresh token
+    const accessToken = createToken({ email: payload.email || '' }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
+    const refreshToken = createToken({ email: payload.email || '' }, config.jwt_refresh_key as string, config.jwt_refresh_expire_in as string);
+
+    return { accessToken, refreshToken };
+}
+
 export const authService = {
-    verifyOtpForNewUserIntoDB
+    verifyOtpForNewUserIntoDB,
+    signInIntoDB
 }
