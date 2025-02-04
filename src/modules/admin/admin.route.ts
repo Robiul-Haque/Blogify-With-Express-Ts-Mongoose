@@ -4,6 +4,7 @@ import upload from "../../middleware/handleUpload";
 import validateRequest from "../../middleware/validateRequest";
 import bodyParser from "../../middleware/bodyParser";
 import { adminValidation } from "./admin.validation";
+import verifyToken from "../../middleware/verifyToken";
 
 const router = Router();
 
