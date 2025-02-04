@@ -39,7 +39,23 @@ const signIn: RequestHandler = catchAsync(async (req: Request, res: Response) =>
     }
 });
 
+// Refreshes the access token using the refresh token stored in cookies.
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+    const { refreshToken } = req.cookies;
+
+    // Call the service method with refresh token for create new token.
+    const result = await authService.refreshToken(refreshToken);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Access token is retrieved successfully!",
+        data: result
+    });
+});
+
 export const authController = {
     verifyOtpForNewUser,
     signIn,
+    refreshToken,
 }
