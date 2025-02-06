@@ -2,19 +2,19 @@ import nodemailer from "nodemailer";
 import config from "../config";
 
 // Function to send an OTP via email
-const sendEmail = async (email: string, otp: string) => {
+const sendEmail = async (email: string, subject: string, otp: string) => {
     const transporter = nodemailer.createTransport({
-        service: "Gmail",
+        service: config.node_mailer_service,
         auth: {
-            user: config.user,
-            pass: config.password,
+            user: config.node_mailer_user,
+            pass: config.node_mailer_password,
         },
     });
 
     const mailOptions = {
-        from: config.email,
+        from: config.node_mailer_email,
         to: email,
-        subject: "Verify Your Account",
+        subject,
         text: `Your OTP code is: ${otp}. It will expire in 10 minutes.`,
     };
 

@@ -71,7 +71,7 @@ const forgetPasswordWithOtp = async (email: string) => {
     const { otp, otpExpiry } = generateOtp();
 
     // Send email with OTP code.
-    sendEmail(email, otp);
+    sendEmail(email, "Forget Password", otp);
 
     // Save OTP in DB.
     const res = await User.findOneAndUpdate({ email }, { otp, otpExpiry }, { new: true }).select("email -_id");

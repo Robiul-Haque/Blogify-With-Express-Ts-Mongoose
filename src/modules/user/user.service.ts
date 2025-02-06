@@ -28,7 +28,7 @@ const signUpIntoDB = async (img: any, payload: TUser) => {
         payload.otpExpiry = otpExpiry;
 
         // Send an email with the OTP.
-        await sendEmail(payload.email, otp);
+        await sendEmail(payload.email, "Verify Your Account", otp);
 
         const { image, name, email, isVerified } = await User.create(payload);
         return { image, name, email, isVerified };
@@ -50,7 +50,7 @@ const signUpIntoDB = async (img: any, payload: TUser) => {
             const { otp, otpExpiry } = generateOtp();
 
             // Send an email with the OTP.
-            await sendEmail(payload.email, otp);
+            await sendEmail(payload.email, "Verify Your Account", otp);
 
             const res = User.findOneAndUpdate({ email: payload.email }, { image, otp, otpExpiry }, { new: true }).select("-_id name email image isVerified");
             return res;
