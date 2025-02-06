@@ -6,6 +6,8 @@ import bcrypt from "bcrypt";
 import { createToken } from "../../utils/createToken";
 import config from "../../config";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import generateOtp from "../../utils/generateOtp";
+import sendEmail from "../../utils/sendEmail";
 
 const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
     // Logic to verify OTP into DB.
@@ -61,8 +63,25 @@ const refreshToken = async (token: string) => {
     return { accessToken };
 }
 
+const forgetPasswordWithOtp = async (email: string) => {
+    const user = await User.findOne({ email });
+    if (!user) throw new AppError(httpStatus.NOT_FOUND, "Account not found");
+
+    // Generate a 6-digit OTP & expiry time for OTP.
+    const { otp, otpExpiry } = generateOtp();
+
+    // Send email with OTP code.
+    sendEmail(email, otp);
+
+    // Save OTP in DB.
+    const res = await User.findOneAndUpdate({ email }, { otp, otpExpiry }, { new: true }).select("email -_id");
+    return res;
+}
+
+
 export const authService = {
     verifyOtpForNewUserIntoDB,
     signInIntoDB,
     refreshToken,
+    forgetPasswordWithOtp,
 }

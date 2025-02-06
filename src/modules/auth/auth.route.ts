@@ -14,4 +14,7 @@ router.post("/sign-in", validateRequest(authValidation.authSignInSchema), authCo
 // Endpoint for refreshing JWT token.
 router.post('/refresh-token', authController.refreshToken);
 
+// Endpoint for resetting password.
+router.post('/forget-password/:email', authController.forgetPassword);
+
 export const authRoutes = router;

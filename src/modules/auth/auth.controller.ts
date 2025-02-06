@@ -14,7 +14,7 @@ const verifyOtpForNewUser: RequestHandler = catchAsync(async (req: Request, res:
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Account Verify Successfully",
+        message: "Account Verify Successfully!",
         data: result
     });
 });
@@ -54,8 +54,20 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const forgetPassword = catchAsync(async (req: Request, res: Response) => {
+    const email = req.params?.email;
+    const result = await authService.forgetPasswordWithOtp(email);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Send OTP code check your email!",
+        data: result
+    });
+});
+
 export const authController = {
     verifyOtpForNewUser,
     signIn,
     refreshToken,
+    forgetPassword,
 }
