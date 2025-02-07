@@ -128,10 +128,25 @@ const verifyOtp = async (email: string, otp: string) => {
   await User.findOneAndUpdate({ email }, { otp: null, otpExpiry: null });
 };
 
+const resetPassword = async (email: string, newPassword: string) => {
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, "User not found");
+    }
+
+    // Hash the new password
+    const hashedNewPasswword = await bcrypt.hash(newPassword, Number(config.salt_rounds));
+
+    // Update password in DB
+    await User.findOneAndUpdate({ email }, { password: hashedNewPasswword });
+}
+
 export const authService = {
   verifyOtpForNewUserIntoDB,
   signInIntoDB,
   refreshToken,
   forgetPasswordWithOtp,
   verifyOtp,
+  resetPassword,
 };

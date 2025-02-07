@@ -22,12 +22,13 @@ router.post(
 // Endpoint for refreshing JWT token.
 router.post("/refresh-token", authController.refreshToken);
 
-// Endpoint for resetting password.
+// Endpoint for forgeting password.
 router.post("/forget-password/:email", authController.forgetPassword);
 
-// Route for user verify OTP.
+//  Endpoint for verifying otp.
 router.post("/verify-otp", authController.verifyOtp);
 
-
+// Endpoint for resetting password
+router.post('/reset-password', authController.resetPassword);
 
 export const authRoutes = router;
