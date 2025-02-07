@@ -12,16 +12,13 @@ import sendEmail from "../../utils/sendEmail";
 const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
   // Logic to verify OTP into DB.
   const isUserExists = await User.findOne({ email });
-  if (!isUserExists)
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "User not found");
+  if (!isUserExists) throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "User not found");
 
   // Check if OTP matches.
-  if (isUserExists.otp !== otp)
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Invalid OTP");
+  if (isUserExists.otp !== otp) throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Invalid OTP");
 
   // Check if OTP has expired.
-  if (!isUserExists.otpExpiry || isUserExists.otpExpiry < new Date())
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "OTP has expired");
+  if (!isUserExists.otpExpiry || isUserExists.otpExpiry < new Date()) throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "OTP has expired");
 
   const updateUserData = {
     isVerified: true,
@@ -29,36 +26,24 @@ const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
     otpExpiry: null,
   };
 
-  const res = await User.findOneAndUpdate({ email }, updateUserData, {
-    new: true,
-  }).select("-_id email isVerified");
+  const res = await User.findOneAndUpdate({ email }, updateUserData, { new: true }).select("-_id email isVerified");
   return res;
 };
 
 const signInIntoDB = async (payload: TLoginUser) => {
   const { email, password } = payload;
 
-  if (!email || !password)
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "Name and password are required"
-    );
+  if (!email || !password) throw new AppError(httpStatus.BAD_REQUEST, "Email and password are required");
 
   const existingUser = await User.findOne({ email });
 
   if (!existingUser) throw new AppError(httpStatus.NOT_FOUND, "User not found");
-  if (!existingUser.isVerified)
-    throw new AppError(httpStatus.UNAUTHORIZED, "User is not verified yet");
-  if (existingUser.isBlocked)
-    throw new AppError(httpStatus.UNAUTHORIZED, "User already blocked");
+  if (!existingUser.isVerified) throw new AppError(httpStatus.UNAUTHORIZED, "User is not verified yet");
+  if (existingUser.isBlocked) throw new AppError(httpStatus.UNAUTHORIZED, "User already blocked");
 
   // Compare the hashed password with the provided password.
-  const passwordMatch = bcrypt.compare(
-    String(password),
-    String(existingUser?.password)
-  );
-  if (!passwordMatch)
-    throw new AppError(httpStatus.NOT_FOUND, "Password did not match");
+  const passwordMatch = await bcrypt.compare(String(password), String(existingUser?.password));
+  if (!passwordMatch) throw new AppError(httpStatus.NOT_FOUND, "Password did not match");
 
   // Generate access and refresh token
   const accessToken = createToken(
@@ -115,32 +100,26 @@ const forgetPasswordWithOtp = async (email: string) => {
 const verifyOtp = async (email: string, otp: string) => {
   // Check if the user exists.
   const user = await User.findOne({ email });
-  if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found");
-  }
+  if (!user) throw new AppError(httpStatus.NOT_FOUND, "User not found");
 
   // Check if the provided OTP matches the stored OTP
-  if (user.otp !== otp) {
-    throw new AppError(httpStatus.NOT_FOUND, "OTP is not matching");
-  }
+  if (user.otp !== otp) throw new AppError(httpStatus.NOT_FOUND, "OTP is not matching");
 
   // Delete OTP from DB.
   await User.findOneAndUpdate({ email }, { otp: null, otpExpiry: null });
 };
 
 const resetPassword = async (email: string, newPassword: string) => {
-    // Check if the user exists
-    const user = await User.findOne({ email });
-    if (!user) {
-        throw new AppError(httpStatus.NOT_FOUND, "User not found");
-    }
+  // Check if the user exists
+  const user = await User.findOne({ email });
+  if (!user) throw new AppError(httpStatus.NOT_FOUND, "User not found");
 
-    // Hash the new password
-    const hashedNewPasswword = await bcrypt.hash(newPassword, Number(config.salt_rounds));
+  // Hash the new password
+  const hashedNewPasswword = await bcrypt.hash(newPassword,Number(config.salt_rounds));
 
-    // Update password in DB
-    await User.findOneAndUpdate({ email }, { password: hashedNewPasswword });
-}
+  // Update password in DB
+  await User.findOneAndUpdate({ email }, { password: hashedNewPasswword });
+};
 
 export const authService = {
   verifyOtpForNewUserIntoDB,
