@@ -13,11 +13,11 @@ export default {
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
     salt_rounds: process.env.SALT_ROUNDS,
-    // NODE_MAIL_SERVICE
     node_mailer_service: process.env.NODE_MAILER_SERVICE,
     node_mailer_user: process.env.NODE_MAILER_USER,
     node_mailer_password: process.env.NODE_MAILER_PASSWORD,
     node_mailer_email: process.env.NODE_MAILER_EMAIL,
+    email_logo: process.env.EMAIL_LOGO,
     jwt_access_key: process.env.JWT_ACCESS_KEY,
     jwt_access_expire_in: process.env.JWT_ACCESS_EXPIRE_IN,
     jwt_refresh_key: process.env.JWT_REFRESH_KEY,

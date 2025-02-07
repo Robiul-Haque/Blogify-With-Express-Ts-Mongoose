@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import config from "../config";
 
 // Function to send an OTP via email
-const sendEmail = async (email: string, subject: string, otp: string) => {
+const sendEmail = async (email: string, subject: string, heading: string, otp: string) => {
     const transporter = nodemailer.createTransport({
         service: config.node_mailer_service,
         auth: {
@@ -15,7 +15,38 @@ const sendEmail = async (email: string, subject: string, otp: string) => {
         from: config.node_mailer_email,
         to: email,
         subject,
-        text: `Your OTP code is: ${otp}. It will expire in 10 minutes.`,
+        html: `
+        <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>Verify Your OTP</title>
+                <style>
+                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                    .container { width: 100%; max-width: 500px; background: #ffffff; margin: 30px auto; padding: 20px;
+                        border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); text-align: center; }
+                    .logo { width: 100px; margin-bottom: 20px; border-radius: 10px}
+                    .title { font-size: 22px; color: #333; }
+                    .otp { font-size: 28px; font-weight: bold; color: #007bff; letter-spacing: 2px; margin: 15px 0; }
+                    .message { font-size: 16px; color: #555; }
+                    .btn { display: inline-block; padding: 12px 20px; background: #007bff; color: white;
+                        font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+                    .footer { font-size: 14px; color: #888; margin-top: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <img src=${config.email_logo} alt="Blog App Logo" class="logo">
+                    <h2 class="title">${heading}</h2>
+                    <p class="message">Your (OTP) is</p>
+                    <p class="otp">${otp}</p>
+                    <p class="message">It will expire in 10 minutes.</p>
+                    <p class="footer">If you did not request this, please ignore this email.</p>
+                </div>
+            </body>
+            </html>
+        `,
     };
 
     await transporter.sendMail(mailOptions);
