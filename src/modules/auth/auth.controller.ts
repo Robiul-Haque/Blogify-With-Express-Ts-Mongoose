@@ -43,7 +43,6 @@ const signIn: RequestHandler = catchAsync(
   }
 );
 
-// Refreshes the access token using the refresh token stored in cookies.
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
 

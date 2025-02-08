@@ -1,9 +1,18 @@
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
+import { Blog } from "../blog/blog.model";
 import { User } from "../user/user.model";
 import { TUpdateAdmin } from "./admin.interface";
 
+const getDashoardStaticsInToDB = async () => {
+    // Retrieve all statics for dashboard.
+    const user = await User.countDocuments();
+    const blog = await Blog.countDocuments();
+    const topBlogs = await Blog.find({ $or: [{ likes: { $gt: 0 } }, { comments: { $not: { $size: 0 } } }] }).sort({ likes: -1, comments: -1 }).select("-content -__v");
+    return { user, blog, topBlogs };
+}
+
 const getAdminInToDB = async () => {
-    // Retrieve all users who have the
+    // Retrieve only admin data.
     const res = await User.find({ role: "admin" }).select("_id name email image role isVerified");
     return res;
 }
@@ -45,6 +54,7 @@ const deleteUserInToDB = async (id: string) => {
 }
 
 export const adminService = {
+    getDashoardStaticsInToDB,
     getAllUserInToDB,
     updateAdminInToDB,
     getAdminInToDB,

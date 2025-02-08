@@ -46,17 +46,8 @@ const signInIntoDB = async (payload: TLoginUser) => {
   if (!passwordMatch) throw new AppError(httpStatus.NOT_FOUND, "Password did not match");
 
   // Generate access and refresh token
-  const accessToken = createToken(
-    { email: payload.email || "" },
-    config.jwt_access_key as string,
-    config.jwt_access_expire_in as string
-  );
-  const refreshToken = createToken(
-    { email: payload.email || "" },
-    config.jwt_refresh_key as string,
-    config.jwt_refresh_expire_in as string
-  );
-
+  const accessToken = createToken({ email: payload.email || "" }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
+  const refreshToken = createToken({ email: payload.email || "" }, config.jwt_refresh_key as string, config.jwt_refresh_expire_in as string);
   return { accessToken, refreshToken };
 };
 
@@ -64,17 +55,10 @@ const refreshToken = async (token: string) => {
   if (!token) throw new AppError(httpStatus.BAD_REQUEST, "Token not provided");
 
   // Verify and decode the refresh token
-  const { email } = jwt.verify(
-    token,
-    config.jwt_refresh_key as string
-  ) as JwtPayload;
+  const { email } = jwt.verify(token, config.jwt_refresh_key as string) as JwtPayload;
 
   // Generate a new access token
-  const accessToken = createToken(
-    { email: email || "" },
-    config.jwt_access_key as string,
-    config.jwt_access_expire_in as string
-  );
+  const accessToken = createToken({ email: email || "" }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
   return { accessToken };
 };
 
@@ -89,11 +73,7 @@ const forgetPasswordWithOtp = async (email: string) => {
   sendEmail(email, "Forget Password", "Forget Password", otp);
 
   // Save OTP in DB.
-  const res = await User.findOneAndUpdate(
-    { email },
-    { otp, otpExpiry },
-    { new: true }
-  ).select("email -_id");
+  const res = await User.findOneAndUpdate({ email }, { otp, otpExpiry }, { new: true }).select("email -_id");
   return res;
 };
 
@@ -115,7 +95,7 @@ const resetPassword = async (email: string, newPassword: string) => {
   if (!user) throw new AppError(httpStatus.NOT_FOUND, "User not found");
 
   // Hash the new password
-  const hashedNewPasswword = await bcrypt.hash(newPassword,Number(config.salt_rounds));
+  const hashedNewPasswword = await bcrypt.hash(newPassword, Number(config.salt_rounds));
 
   // Update password in DB
   await User.findOneAndUpdate({ email }, { password: hashedNewPasswword });
