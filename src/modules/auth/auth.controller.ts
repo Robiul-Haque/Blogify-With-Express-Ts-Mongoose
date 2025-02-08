@@ -60,7 +60,10 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 
 const forgetPassword = catchAsync(async (req: Request, res: Response) => {
   const email = req.params?.email;
+
+  // Call the service method to forget password.
   const result = await authService.forgetPasswordWithOtp(email);
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -72,7 +75,10 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
 const verifyOtp = catchAsync(async (req: Request, res: Response) => {
   const email = req.body?.email;
   const otp = req.body?.otp;
+
+  // Call the service method to verify OTP for forgot password.
   await authService.verifyOtp(email, otp);
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -84,7 +90,9 @@ const verifyOtp = catchAsync(async (req: Request, res: Response) => {
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
   const email = req.body?.email;
   const newPassword = req.body?.password;
+  // Call the service method to reset password for forgot password.
   await authService.resetPassword(email, newPassword);
+  
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
