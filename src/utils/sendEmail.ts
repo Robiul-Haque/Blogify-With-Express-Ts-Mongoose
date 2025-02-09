@@ -2,12 +2,7 @@ import nodemailer from "nodemailer";
 import config from "../config";
 
 // Function to send an OTP via email
-const sendEmail = async (
-  email: string,
-  subject: string,
-  heading: string,
-  otp: string
-) => {
+const sendEmail = async (email: string, subject: string, heading: string, otp: string) => {
   const transporter = nodemailer.createTransport({
     service: config.node_mailer_service,
     auth: {
@@ -21,7 +16,7 @@ const sendEmail = async (
     to: email,
     subject,
     html: `
-        <!DOCTYPE html>
+    <!DOCTYPE html>
             <html>
             <head>
                 <meta charset="UTF-8">
@@ -42,19 +37,20 @@ const sendEmail = async (
             </head>
             <body>
                 <div class="container">
-                    <img src=${config.email_logo} alt="Blog App Logo" class="logo">
-                    <h2 class="title">${heading}</h2>
-                    <p class="message">Your (OTP) is</p>
+                    <h2 class="title">Blogify</h2>
+                    <h3 class="title">${heading}</h3>
+                    <p class="message">Your OTP is</p>
                     <p class="otp">${otp}</p>
                     <p class="message">It will expire in 10 minutes.</p>
                     <p class="footer">If you did not request this, please ignore this email.</p>
                 </div>
             </body>
             </html>
-        `,
+    `
   };
 
   await transporter.sendMail(mailOptions);
 };
 
 export default sendEmail;
+// text: `Your OTP is ${otp}, it will expire in 10 minutes.`,
