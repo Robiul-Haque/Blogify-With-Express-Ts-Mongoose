@@ -20,7 +20,7 @@ router.post(
 );
 
 // Endpoint for refreshing JWT token.
-router.post("/refresh-token", authController.refreshToken);
+router.post("/refresh-token", validateRequest(authValidation.refreshTokenSchema), authController.refreshToken);
 
 // Endpoint for forgeting password.
 router.post("/forget-password/:email", authController.forgetPassword);

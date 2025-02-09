@@ -14,7 +14,14 @@ const authSignInSchema = z.object({
   }),
 });
 
+const refreshTokenSchema = z.object({
+  cookies: z.object({
+    refreshToken: z.string(),
+  }),
+});
+
 export const authValidation = {
   authUserVerifyingSchema,
   authSignInSchema,
+  refreshTokenSchema,
 };

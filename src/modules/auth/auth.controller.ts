@@ -26,26 +26,26 @@ const signIn: RequestHandler = catchAsync(
     const loginData = req.body;
 
     // Call the service method to sign in user in the database.
-    const result = await authService.signInIntoDB(loginData);
+    const { accessToken, refreshToken } = await authService.signInIntoDB(loginData);
 
-    if (result) {
-      res.cookie("refreshToken", result?.refreshToken, {
-        secure: config.node_env === "production",
-        httpOnly: true,
-      });
-      sendResponse(res, {
-        statusCode: httpStatus.OK,
-        success: true,
-        message: "User Login successfully!",
-        data: result,
-      });
-    }
+    // Send resfresh token & save it cookie.
+    res.cookie("refreshToken", refreshToken, {
+      secure: config.node_env === "production",
+      httpOnly: true,
+    });
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "User Login successfully!",
+      data: { accessToken },
+    });
   }
 );
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
-
+  
   // Call the service method with refresh token for create new token.
   const result = await authService.refreshToken(refreshToken);
 
@@ -91,7 +91,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
   const newPassword = req.body?.password;
   // Call the service method to reset password for forgot password.
   await authService.resetPassword(email, newPassword);
-  
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
