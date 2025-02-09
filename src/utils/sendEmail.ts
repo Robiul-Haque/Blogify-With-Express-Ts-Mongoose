@@ -30,15 +30,13 @@ const sendEmail = async (email: string, subject: string, heading: string, otp: s
                     .title { font-size: 22px; color: #333; }
                     .otp { font-size: 28px; font-weight: bold; color: #007bff; letter-spacing: 2px; margin: 15px 0; }
                     .message { font-size: 16px; color: #555; }
-                    .btn { display: inline-block; padding: 12px 20px; background: #007bff; color: white;
-                        font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 20px; }
                     .footer { font-size: 14px; color: #888; margin-top: 20px; }
                 </style>
             </head>
             <body>
                 <div class="container">
                     <h2 class="title">Blogify</h2>
-                    <h3 class="title">${heading}</h3>
+                    <h4 class="title">${heading}</h4>
                     <p class="message">Your OTP is</p>
                     <p class="otp">${otp}</p>
                     <p class="message">It will expire in 10 minutes.</p>

@@ -69,7 +69,7 @@ const updateUserBlockedInToDB = async (id: string, payload: any) => {
 }
 
 const deleteUserInToDB = async (id: string) => {
-    // Delete a user from the database
+    // Delete a user from the database.
     await User.findByIdAndDelete(id);
     return null;
 }

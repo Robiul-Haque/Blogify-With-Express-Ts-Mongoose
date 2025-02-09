@@ -55,5 +55,5 @@ const signUpIntoDB = async (img: any, payload: TUser) => {
 }
 
 export const userService = {
-    signUpIntoDB
+    signUpIntoDB,
 }
