@@ -1,8 +1,10 @@
+import AppError from "../../errors/appError";
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
 import { Blog } from "../blog/blog.model";
 import { User } from "../user/user.model";
 import { TUpdateAdmin } from "./admin.interface";
+import httpStatus from "http-status";
 
 const getDashboardStaticsInToDB = async () => {
     // Retrieve all statics for dashboard.
@@ -19,25 +21,25 @@ const getAdminInToDB = async () => {
 }
 
 const updateAdminInToDB = async (img: any, payload: TUpdateAdmin) => {
-    const data = await User.findById(payload?.id);
-    
+    const isExistsAdmin = await User.findById(payload?.id);
+    if (!isExistsAdmin) throw new AppError(httpStatus.NOT_FOUND, "Admin not found");
+
     // Delete old image and uploaded new image, update the image to cloudinary, add the new image URL & public ID to the user payload.
-    if (data?.image?.url && data?.image?.publicId) {
+    if (isExistsAdmin?.image?.url && isExistsAdmin?.image?.publicId) {
         const imagePath = img?.path;
         const imgName = imagePath.split("/").pop().split(".")[0] || "";
-        const { public_id, secure_url } = await updateImgToCloudinary(imgName, imagePath, data?.image?.publicId as string) as { public_id: string, secure_url: string };
+        const { public_id, secure_url } = await updateImgToCloudinary(imgName, imagePath, isExistsAdmin?.image?.publicId as string) as { public_id: string, secure_url: string };
 
         payload.image = {
             url: secure_url,
             publicId: public_id,
         };
 
-        const res = await User.findByIdAndUpdate(payload?.id, payload, { new: true });
-        return res;
+        await User.findByIdAndUpdate(payload?.id, payload);
     }
 
     // Upload new image to cloudinary and save image URL, public ID & admin name into DB.
-    if (data?.image?.url && data?.image?.publicId === null) {
+    if (isExistsAdmin?.image?.url === null && isExistsAdmin?.image?.publicId === null) {
         const imagePath = img?.path;
         const imgName = imagePath.split("/").pop().split(".")[0] || "";
         const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
@@ -47,9 +49,11 @@ const updateAdminInToDB = async (img: any, payload: TUpdateAdmin) => {
             publicId: public_id,
         };
 
-        const res = await User.findByIdAndUpdate(payload?.id, payload, { new: true });
-        return res;
+        await User.findByIdAndUpdate(payload?.id, payload);
     }
+
+    const res = await User.findById(payload?.id).select("-_id image name email");
+    return res;
 }
 
 const getAllUserInToDB = async () => {
