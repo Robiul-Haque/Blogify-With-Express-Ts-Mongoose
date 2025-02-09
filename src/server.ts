@@ -11,7 +11,7 @@ async function main() {
         // Attempting to connect to the MongoDB database using the connection URL from the config.
         await mongoose.connect(config.db_uri as string);
 
-        // When DB is connect successfully, create a admin by default admin is not exits in the user collection.,
+        // When DB is connect successfully, create a admin by default admin is not exits in the user collection.
         seedAdmin();
 
         // Once the database connection is successful, start the Express server.

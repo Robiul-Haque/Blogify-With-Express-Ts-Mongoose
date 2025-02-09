@@ -11,7 +11,7 @@ const newAdminData = {
 }
 
 const seedAdmin = async () => {
-    // When database is connected, check if admin is already exits, otherwise create a new admin account.
+    // Check if admin is already exits, otherwise create a new admin account.
     const isAdminExits = await User.findOne({ role: "admin" });
 
     if (!isAdminExits) await User.create(newAdminData);
