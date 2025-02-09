@@ -16,7 +16,7 @@ const sendEmail = async (email: string, subject: string, heading: string, otp: s
     to: email,
     subject,
     html: `
-    <!DOCTYPE html>
+          <!DOCTYPE html>
             <html>
             <head>
                 <meta charset="UTF-8">

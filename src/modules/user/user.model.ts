@@ -30,8 +30,8 @@ const userSchema: Schema = new Schema(
         },
         role: {
             type: String,
-            enum: ['user', 'admin'],
-            default: 'user'
+            enum: ["user", "admin"],
+            default: "user"
         },
         isVerified: {
             type: Boolean,
@@ -56,10 +56,10 @@ const userSchema: Schema = new Schema(
 );
 
 // Middleware to hash the user password before saving it to the database.
-userSchema.pre('save', async function (next) {
+userSchema.pre("save", async function (next) {
     const user = this as unknown as TUser;
     user.password = await bcrypt.hash(user.password, Number(config.salt_rounds));
     next();
 });
 
-export const User = model<TUser>('User', userSchema);
+export const User = model<TUser>("User", userSchema);

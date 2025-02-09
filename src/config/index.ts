@@ -22,4 +22,5 @@ export default {
     jwt_access_expire_in: process.env.JWT_ACCESS_EXPIRE_IN,
     jwt_refresh_key: process.env.JWT_REFRESH_KEY,
     jwt_refresh_expire_in: process.env.JWT_REFRESH_EXPIRE_IN,
+    admin_login_password: process.env.ADMIN_LOGIN_PASSWORD,
 }

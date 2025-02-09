@@ -1,4 +1,5 @@
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
+import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
 import { Blog } from "../blog/blog.model";
 import { User } from "../user/user.model";
 import { TUpdateAdmin } from "./admin.interface";
@@ -18,9 +19,10 @@ const getAdminInToDB = async () => {
 }
 
 const updateAdminInToDB = async (img: any, payload: TUpdateAdmin) => {
-    // Delete old image and uploaded new image, update the image in the cloudinary and add the new image URL and public ID to the user payload.
-    if (img) {
-        const data = await User.findById(payload?.id);
+    const data = await User.findById(payload?.id);
+    
+    // Delete old image and uploaded new image, update the image to cloudinary, add the new image URL & public ID to the user payload.
+    if (data?.image?.url && data?.image?.publicId) {
         const imagePath = img?.path;
         const imgName = imagePath.split("/").pop().split(".")[0] || "";
         const { public_id, secure_url } = await updateImgToCloudinary(imgName, imagePath, data?.image?.publicId as string) as { public_id: string, secure_url: string };
@@ -29,10 +31,25 @@ const updateAdminInToDB = async (img: any, payload: TUpdateAdmin) => {
             url: secure_url,
             publicId: public_id,
         };
+
+        const res = await User.findByIdAndUpdate(payload?.id, payload, { new: true });
+        return res;
     }
 
-    const res = await User.findByIdAndUpdate(payload?.id, payload, { new: true });
-    return res;
+    // Upload new image to cloudinary and save image URL, public ID & admin name into DB.
+    if (data?.image?.url && data?.image?.publicId === null) {
+        const imagePath = img?.path;
+        const imgName = imagePath.split("/").pop().split(".")[0] || "";
+        const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
+
+        payload.image = {
+            url: secure_url,
+            publicId: public_id,
+        };
+
+        const res = await User.findByIdAndUpdate(payload?.id, payload, { new: true });
+        return res;
+    }
 }
 
 const getAllUserInToDB = async () => {
