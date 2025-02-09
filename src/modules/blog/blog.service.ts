@@ -22,7 +22,7 @@ const createBlogIntoDB = async (img: any, payload: TBlog) => {
 }
 
 const getAllBlogIntoDB = async () => {
-    const res = await Blog.find({ isPublished: true });
+    const res = await Blog.find();
     return res;
 }
 

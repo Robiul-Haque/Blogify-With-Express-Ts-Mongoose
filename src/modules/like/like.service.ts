@@ -16,16 +16,16 @@ const LikeIntoDB = async (payload: TLike) => {
 
 const unLikeIntoDB = async (id: string) => {
     // Remove like into DB and decrese like in the blog.
-    const res = await Like.findOneAndUpdate({ blog: id }, { isDeleted: true }).select(" -isDeleted -createdAt -updatedAt -__v");
+    const res = await Like.findOneAndDelete({ blog: id }).select("-__v");
 
     const blogData = await Blog.findById(id);
 
     if (blogData && blogData.likes !== undefined && blogData.likes !== 0) {
-        await Blog.findByIdAndUpdate(id, { likes: blogData.likes - 1 }, { new: true });
+        await Blog.findByIdAndUpdate(id, { likes: blogData.likes - 1 });
     } else {
-        throw new AppError(httpStatus.BAD_REQUEST, "Cannot decrease the blog like");
+        throw new AppError(httpStatus.BAD_REQUEST, "Cannot unlike");
     }
-    return res;
+    return null;
 }
 
 export const likeService = {

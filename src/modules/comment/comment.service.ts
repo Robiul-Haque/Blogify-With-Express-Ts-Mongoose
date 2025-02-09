@@ -23,7 +23,7 @@ const updateCommentIntoDB = async (payload: TUpdateComment) => {
 
 const deleteCommentIntoDB = async (id: string) => {
     // Delete comment into DB
-    await Comment.findByIdAndUpdate(id, { isDeleted: true });
+    await Comment.findByIdAndUpdate(id);
     return null;
 }
 
