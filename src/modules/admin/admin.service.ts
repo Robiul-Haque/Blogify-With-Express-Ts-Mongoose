@@ -7,7 +7,7 @@ const getDashoardStaticsInToDB = async () => {
     // Retrieve all statics for dashboard.
     const user = await User.countDocuments();
     const blog = await Blog.countDocuments();
-    const topBlogs = await Blog.find({ $or: [{ likes: { $gt: 0 } }, { comments: { $not: { $size: 0 } } }] }).sort({ likes: -1, comments: -1 }).select("-content -__v");
+    const topBlogs = await Blog.find({ $or: [{ likes: { $gt: 0 } }, { comments: { $not: { $size: 0 } } }] }).sort({ likes: -1, comments: -1 }).select("-content -__v").populate({ path: "author", select: "name -_id" }).limit(10);
     return { user, blog, topBlogs };
 }
 
