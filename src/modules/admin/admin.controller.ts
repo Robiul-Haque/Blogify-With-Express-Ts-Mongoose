@@ -4,9 +4,9 @@ import { adminService } from "./admin.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
-const getDashoardStatics: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+const getDashboardStatics: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     // Call the service method to get admin.
-    const result = await adminService.getDashoardStaticsInToDB();
+    const result = await adminService.getDashboardStaticsInToDB();
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -84,7 +84,7 @@ const deleteUser: RequestHandler = catchAsync(async (req: Request, res: Response
 });
 
 export const adminController = {
-    getDashoardStatics,
+    getDashboardStatics,
     getAdmin,
     updateAdmin,
     getAllUser,

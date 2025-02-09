@@ -3,7 +3,7 @@ import { Blog } from "../blog/blog.model";
 import { User } from "../user/user.model";
 import { TUpdateAdmin } from "./admin.interface";
 
-const getDashoardStaticsInToDB = async () => {
+const getDashboardStaticsInToDB = async () => {
     // Retrieve all statics for dashboard.
     const user = await User.countDocuments();
     const blog = await Blog.countDocuments();
@@ -54,7 +54,7 @@ const deleteUserInToDB = async (id: string) => {
 }
 
 export const adminService = {
-    getDashoardStaticsInToDB,
+    getDashboardStaticsInToDB,
     getAllUserInToDB,
     updateAdminInToDB,
     getAdminInToDB,

@@ -9,7 +9,7 @@ import verifyToken from "../../middleware/verifyToken";
 const router = Router();
 
 // Endpoint to get admin from the database.
-router.get("/get-dashoard-statics", verifyToken("admin"), adminController.getDashoardStatics);
+router.get("/get-dashoard-statics", verifyToken("admin"), adminController.getDashboardStatics);
 
 // Endpoint to get admin from the database.
 router.get("/get-admin", verifyToken("admin"), adminController.getAdmin);
