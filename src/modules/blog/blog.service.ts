@@ -17,6 +17,7 @@ const createBlogIntoDB = async (img: any, payload: TBlog) => {
             publicId: public_id,
         };
     }
+    
     const res = await Blog.create(payload);
     return res;
 }
@@ -45,6 +46,7 @@ const updateBlogIntoDB = async (id: string, img: any, payload: TUpdateBlog) => {
             publicId: public_id
         };
     }
+    
     const res = await Blog.findByIdAndUpdate(id, payload, { new: true });
     return res;
 }
@@ -52,6 +54,7 @@ const updateBlogIntoDB = async (id: string, img: any, payload: TUpdateBlog) => {
 const deleteBlogIntoDB = async (id: string) => {
     const data = await Blog.findById(id);
     if (!data) throw new AppError(HttpStatus.NOT_FOUND, "Blog not found!");
+
     // Delete image from cloudinary & database
     await deleteImgOnCloudinary(data?.image?.publicId as string);
     await Blog.findByIdAndDelete(id);

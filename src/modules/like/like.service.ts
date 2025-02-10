@@ -15,16 +15,18 @@ const LikeIntoDB = async (payload: TLike) => {
 }
 
 const unLikeIntoDB = async (id: string) => {
-    // Remove like into DB and decrese like in the blog.
-    const res = await Like.findOneAndDelete({ blog: id }).select("-__v");
+    // Remove like and decrese like in the blog.
+    const like = await Like.findById(id);
 
-    const blogData = await Blog.findById(id);
+    const blogData = await Blog.findById(like?.blog);
 
     if (blogData && blogData.likes !== undefined && blogData.likes !== 0) {
         await Blog.findByIdAndUpdate(id, { likes: blogData.likes - 1 });
     } else {
         throw new AppError(httpStatus.BAD_REQUEST, "Cannot unlike");
     }
+
+    await Like.findByIdAndDelete(id).select("-__v");
     return null;
 }
 
