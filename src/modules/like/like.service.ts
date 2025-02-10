@@ -15,7 +15,7 @@ const LikeIntoDB = async (payload: TLike) => {
 }
 
 const unLikeIntoDB = async (id: string) => {
-    // Remove like and decrese like in the blog.
+    // Delete like and decrese like in the blog.
     const like = await Like.findById(id);
 
     const blogData = await Blog.findById(like?.blog);
@@ -30,7 +30,19 @@ const unLikeIntoDB = async (id: string) => {
     return null;
 }
 
+const getAllLikeIntoDB = async () => {
+    const res = await Like.find();
+    return res;
+}
+
+const deleteLikeIntoDB = async (id: string) => {
+    await Like.findByIdAndDelete(id);
+    return null;
+}
+
 export const likeService = {
     LikeIntoDB,
-    unLikeIntoDB
+    unLikeIntoDB,
+    getAllLikeIntoDB,
+    deleteLikeIntoDB,
 }

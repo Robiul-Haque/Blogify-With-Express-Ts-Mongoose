@@ -12,4 +12,10 @@ route.post("/like", verifyToken("admin"), validateRequest(likeValidation.likeSch
 // API endpoint for unlike blog.
 route.delete("/unlike/:id", verifyToken("admin"), likeController.unLike);
 
+// API endpoint for get all like.
+route.get("/get-all-like", verifyToken("admin"), likeController.getAllLike);
+
+// API endpoint for delete like.
+route.delete("/delete-like/:id", verifyToken("admin"), likeController.deleteLike);
+
 export const likeRoutes = route;

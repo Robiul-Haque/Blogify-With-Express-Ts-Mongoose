@@ -32,7 +32,35 @@ const unLike: RequestHandler = catchAsync(async (req: Request, res: Response) =>
     })
 });
 
+const getAllLike: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    // Call the service method to get all like in the database.
+    const result = await likeService.getAllLikeIntoDB();
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data retrieved successfully",
+        data: result
+    })
+});
+
+const deleteLike: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    // Call the service method to delete like in the database.
+    const result = await likeService.deleteLikeIntoDB(id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Like delete successfully",
+        data: result
+    })
+});
+
 export const likeController = {
     Like,
-    unLike
+    unLike,
+    getAllLike,
+    deleteLike,
 }
