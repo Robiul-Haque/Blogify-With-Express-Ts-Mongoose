@@ -4,7 +4,7 @@ import config from "../../config";
 import bcrypt from "bcrypt";
 
 const userSchema: Schema = new Schema(
-{
+    {
         name: {
             type: String,
             required: true
@@ -49,10 +49,7 @@ const userSchema: Schema = new Schema(
             type: Date,
             default: null
         }
-    },
-    {
-        timestamps: true
-    }
+    }, { timestamps: true }
 );
 
 // Middleware to hash the user password before saving it to the database.

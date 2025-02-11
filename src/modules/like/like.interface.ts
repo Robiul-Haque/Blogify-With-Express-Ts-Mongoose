@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 export type TLike = {
-    blog: mongoose.Schema.Types.ObjectId;
-    user: mongoose.Schema.Types.ObjectId;
+    blog: Schema.Types.ObjectId;
+    user: Schema.Types.ObjectId;
 }

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const commentSchema = z.object({
+const createCommentSchema = z.object({
     body: z.object({
         comment: z.string(),
         blog: z.string(),
@@ -16,6 +16,6 @@ const updateCommentSchema = z.object({
 });
 
 export const commentValidation = {
-    commentSchema,
+    createCommentSchema,
     updateCommentSchema,
 }

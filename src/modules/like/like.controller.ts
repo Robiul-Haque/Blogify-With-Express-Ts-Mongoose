@@ -7,7 +7,7 @@ import httpStatus from "http-status";
 const Like: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const likeData = req.body;
 
-    // Call the service method to create like in the database.
+    // Call the service method to increase like in the database.
     const result = await likeService.LikeIntoDB(likeData);
 
     sendResponse(res, {
@@ -21,7 +21,7 @@ const Like: RequestHandler = catchAsync(async (req: Request, res: Response) => {
 const unLike: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const id = req.params.id;
 
-    // Call the service method to unlike in the database.
+    // Call the service method to decrease like in the database.
     const result = await likeService.unLikeIntoDB(id);
 
     sendResponse(res, {
