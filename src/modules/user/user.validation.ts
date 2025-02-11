@@ -8,6 +8,22 @@ const createUserSchema = z.object({
     })
 });
 
+const updateUserSchema = z.object({
+    body: z.object({
+        id: z.string(),
+        name: z.string(),
+    })
+});
+
+const userBlockedSchema = z.object({
+    body: z.object({
+        id: z.string(),
+        status: z.boolean(),
+    })
+});
+
 export const userValidation = {
-    createUserSchema
+    createUserSchema,
+    updateUserSchema,
+    userBlockedSchema,
 }

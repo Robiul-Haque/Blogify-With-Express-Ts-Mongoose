@@ -1,4 +1,3 @@
-// Define the User type
 export type TUser = {
     name: string;
     email: string;
@@ -12,4 +11,13 @@ export type TUser = {
     isBlocked: boolean;
     otp: string | null;
     otpExpiry: Date | null;
+}
+
+export type TUpdateUser = {
+    id: string;
+    name: string;
+    image: {
+        url: string;
+        publicId: string;
+    };
 }

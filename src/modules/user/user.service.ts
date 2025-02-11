@@ -1,23 +1,29 @@
-import { TUser } from "./user.interface";
+import { TUpdateUser, TUser } from "./user.interface";
 import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
+import generateOtp from "../../utils/generateOtp";
 import sendEmail from "../../utils/sendEmail";
 import { User } from "./user.model";
+import { Blog } from "../blog/blog.model";
+import AppError from "../../errors/appError";
+import httpStatus from "http-status";
+import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
-import generateOtp from "../../utils/generateOtp";
 
 const signUpIntoDB = async (img: any, payload: TUser) => {
-    // Check if a user already exists with the given email, then delete the uploaded image form cloudinary and update the Otp & otpExpiry or create new user into DB & upload img to cloudinary.
+    // Check if a user already exists with the given email, then delete the uploaded image form cloudinary and update the Otp & otpExpiry or create new user into DB & upload image to cloudinary.
     const isUserExists = await User.findOne({ email: payload.email });
     if (!isUserExists) {
-        const imagePath = img?.path;
-        const imgName = imagePath.split("/").pop().split(".")[0] || "";
-        const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
+        if (img) {
+            const imagePath = img?.path;
+            const imgName = imagePath.split("/").pop().split(".")[0] || "";
+            const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
 
-        // Add the uploaded image's URL and public ID to the user payload.
-        payload.image = {
-            url: secure_url,
-            publicId: public_id,
-        };
+            // Add the uploaded image's URL and public ID to the user payload.
+            payload.image = {
+                url: secure_url,
+                publicId: public_id,
+            };
+        }
 
         // Generate an OTP and set its expiry time.
         const { otp, otpExpiry } = generateOtp();
@@ -29,19 +35,23 @@ const signUpIntoDB = async (img: any, payload: TUser) => {
         sendEmail(payload.email, "Verify Your Account", "Verify Your Account", otp);
 
         const { image, name, email, isVerified } = await User.create(payload);
+
         return { image, name, email, isVerified };
     } else {
         if (isUserExists.image) deleteImgOnCloudinary(isUserExists.image.publicId);
+        let image;
 
-        const imagePath = img?.path;
-        const imgName = imagePath.split("/").pop().split(".")[0] || "";
-        const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
+        if (img) {
+            const imagePath = img?.path;
+            const imgName = imagePath.split("/").pop().split(".")[0] || "";
+            const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
 
-        // Add the uploaded image's URL and public ID to the user payload.
-        const image = {
-            url: secure_url,
-            publicId: public_id,
-        };
+            // Add the uploaded image's URL and public ID to the user payload.
+            image = {
+                url: secure_url,
+                publicId: public_id,
+            };
+        }
 
         // Generate an OTP and set its expiry time.
         const { otp, otpExpiry } = generateOtp();
@@ -50,10 +60,93 @@ const signUpIntoDB = async (img: any, payload: TUser) => {
         await sendEmail(payload.email, "Verify Your Account", "Verify Your Account", otp);
 
         const res = User.findOneAndUpdate({ email: payload.email }, { image, otp, otpExpiry }, { new: true }).select("-_id name email image isVerified");
+
         return res;
     }
 }
 
+const getDashboardStaticsInToDB = async () => {
+    // Retrieve all statics for dashboard.
+    const user = await User.countDocuments();
+    const blog = await Blog.countDocuments();
+    const topBlogs = await Blog.find({ $or: [{ likes: { $gt: 0 } }, { comments: { $not: { $size: 0 } } }] }).sort({ likes: -1, comments: -1 }).select("-content -__v").populate({ path: "author", select: "name -_id" }).limit(10);
+    return { user, blog, topBlogs };
+}
+
+const getUserInToDB = async () => {
+    // Get only user data.
+    const res = await User.find({ role: "admin" }).select("_id name email image role isVerified");
+
+    return res;
+}
+
+const updateUserInToDB = async (img: any, payload: TUpdateUser) => {
+    const isExistsAdmin = await User.findById(payload?.id);
+    if (!isExistsAdmin) throw new AppError(httpStatus.NOT_FOUND, "Admin not found");
+
+    // Delete old image and uploaded new image in the cloudinary, add the new image URL & public ID to the user payload.
+    if (isExistsAdmin?.image?.url && isExistsAdmin?.image?.publicId) {
+        if (img) {
+            const imagePath = img?.path;
+            const imgName = imagePath.split("/").pop().split(".")[0] || "";
+            const { public_id, secure_url } = await updateImgToCloudinary(imgName, imagePath, isExistsAdmin?.image?.publicId as string) as { public_id: string, secure_url: string };
+
+            payload.image = {
+                url: secure_url,
+                publicId: public_id,
+            };
+        }
+
+        await User.findByIdAndUpdate(payload?.id, payload);
+    }
+
+    // Upload new image to cloudinary and save image URL, public ID & admin name into DB.
+    if (isExistsAdmin?.image?.url === null && isExistsAdmin?.image?.publicId === null) {
+        if (img) {
+            const imagePath = img?.path;
+            const imgName = imagePath.split("/").pop().split(".")[0] || "";
+            const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
+
+            payload.image = {
+                url: secure_url,
+                publicId: public_id,
+            };
+        }
+
+        await User.findByIdAndUpdate(payload?.id, payload);
+    }
+
+    const res = await User.findById(payload?.id).select("-_id image name email");
+
+    return res;
+}
+
+const getAllUserInToDB = async () => {
+    // Get all users.
+    const res = await User.find().sort({ createdAt: "desc" }).select("_id name email image role isVerified isBlocked");
+    return res;
+}
+
+const userBlockedInToDB = async (id: string, payload: any) => {
+    // Update the user blocked status in the database.
+    const res = await User.findByIdAndUpdate(id, { isBlocked: payload }, { new: true }).select("-_id isBlocked");
+
+    return res;
+}
+
+const deleteUserInToDB = async (id: string) => {
+    // Delete a user from the database.
+    await User.findByIdAndDelete(id);
+
+    return null;
+}
+
 export const userService = {
     signUpIntoDB,
+    getDashboardStaticsInToDB,
+    getUserInToDB,
+    updateUserInToDB,
+    getAllUserInToDB,
+    userBlockedInToDB,
+    deleteUserInToDB,
 }
