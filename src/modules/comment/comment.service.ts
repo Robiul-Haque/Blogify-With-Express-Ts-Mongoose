@@ -11,7 +11,7 @@ const createCommentIntoDB = async (payload: TComment) => {
 
 const getAllCommentIntoDB = async (id: string) => {
     // Get all comment into DB
-    const res = await Comment.find({ blog: id, isDeleted: false }).select("-isDeleted -__v");
+    const res = await Comment.find({ blog: id }).select("-isDeleted -__v");
     return res;
 }
 
