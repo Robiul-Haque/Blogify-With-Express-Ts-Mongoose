@@ -16,7 +16,7 @@ const sendEmail = async (email: string, subject: string, heading: string, otp: s
     to: email,
     subject,
     html: `
-          <!DOCTYPE html>
+            <!DOCTYPE html>
             <html>
             <head>
                 <meta charset="UTF-8">
@@ -24,19 +24,19 @@ const sendEmail = async (email: string, subject: string, heading: string, otp: s
                 <title>Verify Your OTP</title>
                 <style>
                     body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-                    .container { width: 100%; max-width: 500px; background: #ffffff; margin: 30px auto; padding: 20px;
-                        border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); text-align: center; }
-                    .logo { width: 100px; margin-bottom: 20px; border-radius: 10px}
-                    .title { font-size: 22px; color: #333; }
-                    .otp { font-size: 28px; font-weight: bold; color: #007bff; letter-spacing: 2px; margin: 15px 0; }
+                    .container { width: 80%; max-width: 500px; background: #ffffff; margin: 30px auto; padding: 20px;
+                      border-radius: 8px; border: 1px solid rgb(41, 41, 43); text-align: center; }
+                    .logo {font-size: 26px; color:rgb(50, 149, 255);}
+                    .title { font-size: 18px; color: #333; }
+                    .otp { font-size: 25px; font-weight: bold; color: #007bff; letter-spacing: 2px; margin: 15px 0; }
                     .message { font-size: 16px; color: #555; }
                     .footer { font-size: 14px; color: #888; margin-top: 20px; }
                 </style>
             </head>
             <body>
                 <div class="container">
-                    <h2 class="title">Blogify</h2>
-                    <h4 class="title">${heading}</h4>
+                    <h2 class="logo">Blogify</h2>
+                    <h3 class="title">${heading}</h3>
                     <p class="message">Your OTP is</p>
                     <p class="otp">${otp}</p>
                     <p class="message">It will expire in 10 minutes.</p>
@@ -51,4 +51,3 @@ const sendEmail = async (email: string, subject: string, heading: string, otp: s
 };
 
 export default sendEmail;
-// text: `Your OTP is ${otp}, it will expire in 10 minutes.`,

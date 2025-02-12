@@ -20,9 +20,9 @@ const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
     if (!isUserExists.otpExpiry || isUserExists.otpExpiry < new Date()) throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "OTP has expired");
 
     const updateUserData = {
-      isVerified: true,
-      otp: null,
-      otpExpiry: null,
+        isVerified: true,
+        otp: null,
+        otpExpiry: null,
     };
 
     const res = await User.findOneAndUpdate({ email }, updateUserData, { new: true }).select("-_id email isVerified");
@@ -72,7 +72,7 @@ const forgetPasswordWithOtp = async (email: string) => {
     const { otp, otpExpiry } = generateOtp();
 
     // Send email with OTP code.
-    sendEmail(email, "Forget Password", "Forget Password", otp);
+    sendEmail(email, "Forget Password", "Verify Your Account", otp);
 
     // Save OTP in DB.
     const res = await User.findOneAndUpdate({ email }, { otp, otpExpiry }, { new: true }).select("email -_id");
@@ -105,10 +105,10 @@ const resetPassword = async (email: string, newPassword: string) => {
 };
 
 export const authService = {
-  verifyOtpForNewUserIntoDB,
-  signInIntoDB,
-  refreshToken,
-  forgetPasswordWithOtp,
-  verifyOtp,
-  resetPassword,
+    verifyOtpForNewUserIntoDB,
+    signInIntoDB,
+    refreshToken,
+    forgetPasswordWithOtp,
+    verifyOtp,
+    resetPassword,
 };
