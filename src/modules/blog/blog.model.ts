@@ -42,8 +42,7 @@ const blogSchema: Schema = new Schema<TBlog>(
             type: Boolean,
             default: true
         },
-    },
-    { timestamps: true }
+    }, { timestamps: true }
 );
 
 export const Blog = model<TBlog>('Blog', blogSchema);

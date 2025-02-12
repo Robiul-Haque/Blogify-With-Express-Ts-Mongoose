@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 export type TBlog = {
     image: {
@@ -7,10 +7,10 @@ export type TBlog = {
     };
     title: string;
     content: string;
-    author: mongoose.Schema.Types.ObjectId;
+    author: Schema.Types.ObjectId;
     category: string;
     likes?: number;
-    comments?: mongoose.Schema.Types.ObjectId[];
+    comments?: Schema.Types.ObjectId[];
     isPublished?: boolean;
 }
 

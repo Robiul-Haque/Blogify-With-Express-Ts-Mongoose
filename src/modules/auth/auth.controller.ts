@@ -5,8 +5,7 @@ import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import config from "../../config";
 
-const verifyOtpForNewUser: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
+const verifyOtpForNewUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const { email, otp } = req.body;
 
     // Call the service method to verify OTP for new user in the database.
@@ -18,11 +17,9 @@ const verifyOtpForNewUser: RequestHandler = catchAsync(
       message: "Account Verify Successfully!",
       data: result,
     });
-  }
-);
+});
 
-const signIn: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
+const signIn: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const loginData = req.body;
 
     // Call the service method to sign in user in the database.
@@ -40,64 +37,64 @@ const signIn: RequestHandler = catchAsync(
       message: "User Login successfully!",
       data: { accessToken },
     });
-  }
-);
+});
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
-  const { refreshToken } = req.cookies;
-  
-  // Call the service method with refresh token for create new token.
-  const result = await authService.refreshToken(refreshToken);
+    const { refreshToken } = req.cookies;
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Access token is retrieved successfully!",
-    data: result,
-  });
+    // Call the service method with refresh token for create new token.
+    const result = await authService.refreshToken(refreshToken);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Access token is retrieved successfully!",
+      data: result,
+    });
 });
 
 const forgetPassword = catchAsync(async (req: Request, res: Response) => {
-  const email = req.params?.email;
+    const email = req.params?.email;
 
-  // Call the service method to forget password.
-  const result = await authService.forgetPasswordWithOtp(email);
+    // Call the service method to forget password.
+    const result = await authService.forgetPasswordWithOtp(email);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Send OTP code check your email!",
-    data: result,
-  });
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Send OTP code check your email!",
+      data: result,
+    });
 });
 
 const verifyOtp = catchAsync(async (req: Request, res: Response) => {
-  const email = req.body?.email;
-  const otp = req.body?.otp;
+    const email = req.body?.email;
+    const otp = req.body?.otp;
 
-  // Call the service method to verify OTP for forgot password.
-  await authService.verifyOtp(email, otp);
+    // Call the service method to verify OTP for forgot password.
+    await authService.verifyOtp(email, otp);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "OTP verified successfully",
-    data: null,
-  });
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "OTP verified successfully!",
+      data: null,
+    });
 });
 
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
-  const email = req.body?.email;
-  const newPassword = req.body?.password;
-  // Call the service method to reset password for forgot password.
-  await authService.resetPassword(email, newPassword);
+    const email = req.body?.email;
+    const newPassword = req.body?.password;
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Password update successfully!",
-    data: "",
-  });
+    // Call the service method to reset password.
+    await authService.resetPassword(email, newPassword);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Password update successfully!",
+      data: "",
+    });
 });
 
 export const authController = {

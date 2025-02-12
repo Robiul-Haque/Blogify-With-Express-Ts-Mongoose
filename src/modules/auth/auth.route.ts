@@ -6,29 +6,21 @@ import { authController } from "./auth.controller";
 const router = Router();
 
 // Endpoint for new user verification with OTP.
-router.post(
-  "/verify-otp-for-new-user",
-  validateRequest(authValidation.authUserVerifyingSchema),
-  authController.verifyOtpForNewUser
-);
+router.post("/verify-otp-for-new-user", validateRequest(authValidation.userVerifyAuthSchema), authController.verifyOtpForNewUser);
 
 // Endpoint for user sign-in.
-router.post(
-  "/sign-in",
-  validateRequest(authValidation.authSignInSchema),
-  authController.signIn
-);
+router.post("/sign-in", validateRequest(authValidation.signInAuthSchema), authController.signIn);
 
-// Endpoint for refreshing JWT token.
-router.post("/refresh-token", validateRequest(authValidation.refreshTokenSchema), authController.refreshToken);
+// Endpoint for refresh token to create new validate JWT token.
+router.post("/refresh-token", validateRequest(authValidation.refreshTokenAuthSchema), authController.refreshToken);
 
-// Endpoint for forgeting password.
+// Endpoint for forget password.
 router.post("/forget-password/:email", authController.forgetPassword);
 
-//  Endpoint for verifying otp.
+//  Endpoint for verify OTP.
 router.post("/verify-otp", authController.verifyOtp);
 
-// Endpoint for resetting password
-router.post('/reset-password', authController.resetPassword);
+// Endpoint for reset password.
+router.post("/reset-password", authController.resetPassword);
 
 export const authRoutes = router;

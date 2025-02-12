@@ -33,7 +33,8 @@ const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 
 const getBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const blogId = req.params.id;
-    // Call the service method to get single blog in the database.
+
+    // Call the service method to get single blog with blog ID in the database.
     const result = await blogService.getBlogIntoDB(blogId);
 
     sendResponse(res, {

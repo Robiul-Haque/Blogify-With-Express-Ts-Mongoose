@@ -17,7 +17,7 @@ router.get("/get-all-blog", verifyToken("admin"), blogController.getAllBlog);
 // Endpoint for get blog by ID.
 router.get("/get-blog/:id", verifyToken("admin"), blogController.getBlog);
 
-// Endpoint for update blog. Handles image upload, validates request body, and updates a blog.
+// Endpoint for update blog, Handles image upload, validates request body, and updates a blog.
 router.patch("/update-blog", verifyToken("admin"), upload.single("image"), bodyParser, validateRequest(blogValidation.updateBlogSchema), blogController.updateBlog);
 
 // Endpoint for delete blog by ID.
