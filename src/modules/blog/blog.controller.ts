@@ -8,7 +8,7 @@ const adminCreateBlog: RequestHandler = catchAsync(async (req: Request, res: Res
     const img = req.file;
     const newBlog = req.body;
 
-    // Call the service method to create a new blog in the database.
+    // Call the service method to admin create a new blog in the database.
     const result = await blogService.adminCreateBlogIntoDB(img, newBlog);
 
     sendResponse(res, {
@@ -20,7 +20,7 @@ const adminCreateBlog: RequestHandler = catchAsync(async (req: Request, res: Res
 });
 
 const adminGetAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-    // Call the service method to get all blog in the database.
+    // Call the service method to admin get all blog in the database.
     const result = await blogService.adminGetAllBlogIntoDB();
 
     sendResponse(res, {
@@ -34,7 +34,7 @@ const adminGetAllBlog: RequestHandler = catchAsync(async (req: Request, res: Res
 const adminGetBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const blogId = req.params.id;
 
-    // Call the service method to get single blog with blog ID in the database.
+    // Call the service method to admin get single blog with blog ID in the database.
     const result = await blogService.adminGetBlogIntoDB(blogId);
 
     sendResponse(res, {
@@ -49,7 +49,7 @@ const adminUpdateBlog: RequestHandler = catchAsync(async (req: Request, res: Res
     const img = req.file;
     const { id, data } = req.body;
 
-    // Call the service method to update a blog in the database.
+    // Call the service method to admin update a blog in the database.
     const result = await blogService.adminUpdateBlogIntoDB(id, img, data);
 
     sendResponse(res, {
@@ -63,7 +63,7 @@ const adminUpdateBlog: RequestHandler = catchAsync(async (req: Request, res: Res
 const adminDeleteBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const id = req.params.id;
 
-    // Call the service method to delete a blog in the database.
+    // Call the service method to admin delete a blog in the database.
     const result = await blogService.adminDeleteBlogIntoDB(id);
 
     sendResponse(res, {
@@ -75,7 +75,7 @@ const adminDeleteBlog: RequestHandler = catchAsync(async (req: Request, res: Res
 });
 
 const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-    // Call the service method to get all published blog in the database.
+    // Call the service method to admin get all published blog in the database.
     const result = await blogService.getAllBlogIntoDB();
 
     sendResponse(res, {

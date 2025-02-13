@@ -20,20 +20,17 @@ const adminCreateBlogIntoDB = async (img: any, payload: TCreateBlog) => {
     }
 
     const res = await Blog.create(payload);
-
     return res;
 }
 
 const adminGetAllBlogIntoDB = async () => {
     const res = await Blog.find();
-
     return res;
 }
 
 const adminGetBlogIntoDB = async (id: string) => {
     const res = await Blog.findById(id);
     if (res?.isPublished === false) throw new AppError(HttpStatus.NOT_FOUND, "Blog is not published yet");
-
     return res;
 }
 
@@ -52,7 +49,6 @@ const adminUpdateBlogIntoDB = async (id: string, img: any, payload: TUpdateBlog)
     }
 
     const res = await Blog.findByIdAndUpdate(id, payload, { new: true });
-
     return res;
 }
 
@@ -63,13 +59,11 @@ const adminDeleteBlogIntoDB = async (id: string) => {
     // Delete image from cloudinary & database
     await deleteImgOnCloudinary(data?.image?.publicId as string);
     await Blog.findByIdAndDelete(id);
-
     return null;
 }
 
 const getAllBlogIntoDB = async () => {
     const res = await Blog.find({ isPublished: true });
-
     return res;
 }
 

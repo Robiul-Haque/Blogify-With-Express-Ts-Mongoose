@@ -9,7 +9,6 @@ import auth from "../../middleware/auth";
 const router = Router();
 
 
-
 // Blog endpoint for admin.
 // Endpoint for admin create blog. Handles image upload, validates request body, and creates a new blog.
 router.post("/admin-create-blog", auth("admin"), upload.single("image"), bodyParser, validateRequest(blogValidation.adminCreateBlogSchema), blogController.adminCreateBlog);
@@ -27,11 +26,9 @@ router.patch("/admin-update-blog", auth("admin"), upload.single("image"), bodyPa
 router.delete("/admin-delete-blog/:id", auth("admin"), blogController.adminDeleteBlog);
 
 
-
 // Client side endpoint for user
 // Endpoint for get all published blog.
 router.get("get-all-blog", blogController.getAllBlog);
-
 
 
 export const blogRoutes = router;
