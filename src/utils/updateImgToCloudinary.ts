@@ -20,7 +20,7 @@ export const updateImgToCloudinary = async (newImgName: string, newImgPath: stri
             newImgPath,
             {
                 public_id: newImgName, // Set the name of the uploaded file
-                folder: "Mern-crud", // The folder in Cloudinary where the image will be stored
+                folder: "Blogify", // The folder in Cloudinary where the image will be stored
             },
             (err, result) => {
                 if (err) reject(new AppError(500, `Failed to upload new image: ${err.message}`));

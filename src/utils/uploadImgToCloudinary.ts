@@ -15,7 +15,7 @@ export const uploadImgToCloudinary = async (imgName: string, imgPath: string) =>
             imgPath,
             {
                 public_id: imgName, // Set the name of the uploaded file
-                folder: "Mern-blog", // The folder in Cloudinary where the image will be stored
+                folder: "Blogify", // The folder in Cloudinary where the image will be stored
             },
             (err, result) => {
                 if (err) reject(err);

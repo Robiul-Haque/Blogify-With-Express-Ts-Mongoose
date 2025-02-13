@@ -14,7 +14,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder: "Mern-blog",
+        folder: "Blogify",
         allowed_formats: ["jpg", "png"],
     } as any,
 });
