@@ -1,8 +1,8 @@
 import { Request, RequestHandler, Response } from "express";
-import catchAsync from "../../utils/catchAsync";
+import catchAsync from "../../../utils/catchAsync";
 import { TUser } from "./user.interface";
 import { userService } from "./user.service";
-import sendResponse from "../../utils/sendResponse";
+import sendResponse from "../../../utils/sendResponse";
 import httpStatus from "http-status";
 
 const signUp: RequestHandler = catchAsync(async (req: Request, res: Response) => {

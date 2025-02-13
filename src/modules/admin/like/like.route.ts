@@ -1,8 +1,8 @@
 import { Router } from "express";
-import validateRequest from "../../middleware/validateRequest";
+import validateRequest from "../../../middleware/validateRequest";
 import { likeValidation } from "./like.validation";
 import { likeController } from "./like.controller";
-import verifyToken from "../../middleware/verifyToken";
+import verifyToken from "../../../middleware/verifyToken";
 
 const route = Router();
 

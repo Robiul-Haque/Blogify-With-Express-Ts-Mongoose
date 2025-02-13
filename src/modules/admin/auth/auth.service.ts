@@ -1,13 +1,13 @@
-import AppError from "../../errors/appError";
+import AppError from "../../../errors/appError";
 import { User } from "../user/user.model";
 import httpStatus from "http-status";
 import { TLoginUser } from "./auth.interface";
 import bcrypt from "bcrypt";
-import { createToken } from "../../utils/createToken";
-import config from "../../config";
+import { createToken } from "../../../utils/createToken";
+import config from "../../../config";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import generateOtp from "../../utils/generateOtp";
-import sendEmail from "../../utils/sendEmail";
+import generateOtp from "../../../utils/generateOtp";
+import sendEmail from "../../../utils/sendEmail";
 
 const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
     const isUserExists = await User.findOne({ email });

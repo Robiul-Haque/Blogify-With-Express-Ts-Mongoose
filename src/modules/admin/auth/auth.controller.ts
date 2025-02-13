@@ -1,9 +1,9 @@
 import { Request, RequestHandler, Response } from "express";
-import catchAsync from "../../utils/catchAsync";
+import catchAsync from "../../../utils/catchAsync";
 import { authService } from "./auth.service";
-import sendResponse from "../../utils/sendResponse";
+import sendResponse from "../../../utils/sendResponse";
 import httpStatus from "http-status";
-import config from "../../config";
+import config from "../../../config";
 
 const verifyOtpForNewUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const { email, otp } = req.body;

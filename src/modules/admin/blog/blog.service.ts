@@ -1,7 +1,7 @@
-import AppError from "../../errors/appError";
-import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
-import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
-import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
+import AppError from "../../../errors/appError";
+import { deleteImgOnCloudinary } from "../../../utils/deleteImgToCloudinary";
+import { updateImgToCloudinary } from "../../../utils/updateImgToCloudinary";
+import { uploadImgToCloudinary } from "../../../utils/uploadImgToCloudinary";
 import { TBlog, TUpdateBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
 import HttpStatus from "http-status";

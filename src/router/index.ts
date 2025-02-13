@@ -1,31 +1,31 @@
 import { Router } from "express";
-import { userRoutes } from "../modules/user/user.route";
-import { authRoutes } from "../modules/auth/auth.route";
-import { blogRoutes } from "../modules/blog/blog.route";
-import { commentRoutes } from "../modules/comment/comment.route";
-import { likeRoutes } from "../modules/like/like.route";
+import { userRoutes } from "../modules/admin/user/user.route";
+import { authRoutes } from "../modules/admin/auth/auth.route";
+import { blogRoutes } from "../modules/admin/blog/blog.route";
+import { commentRoutes } from "../modules/admin/comment/comment.route";
+import { likeRoutes } from "../modules/admin/like/like.route";
 
 const router = Router();
 
 const moduleRoutes = [
     {
-        path: '/auth',
+        path: 'admin/auth',
         route: authRoutes,
     },
     {
-        path: '/user',
+        path: 'admin/user',
         route: userRoutes,
     },
     {
-        path: '/blog',
+        path: 'admin/blog',
         route: blogRoutes,
     },
     {
-        path: '/like',
+        path: 'admin/like',
         route: likeRoutes,
     },
     {
-        path: '/comment',
+        path: 'admin/comment',
         route: commentRoutes,
     },
 ]
