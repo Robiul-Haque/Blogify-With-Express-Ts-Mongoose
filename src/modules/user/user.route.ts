@@ -11,6 +11,8 @@ const router = Router();
 // Endpoint for user registration database.
 router.post("/sign-up", upload.single('image'), bodyParser, validateRequest(userValidation.createUserSchema), userController.signUp);
 
+
+// Endpoint for admin.
 // Endpoint to get admin dashbord statics from the database.
 router.get("/get-admin-dashboard-statics", auth("admin"), userController.getAdminDashboardStatics);
 
@@ -21,12 +23,12 @@ router.get("/get-admin", auth("admin"), userController.getAdmin);
 router.patch("/update-admin-info", auth("admin"), upload.single("image"), bodyParser, validateRequest(userValidation.updateAdminSchema), userController.updateAdmin);
 
 // Endpoint to get all users without admin from the database.
-router.get("/get-all-user", auth("admin"), userController.getAllUser);
+router.get("/admin-get-all-user", auth("admin"), userController.adminGetAllUser);
 
 // Endpoint to update user blocked status in the database.
-router.patch("/user-blocked", auth("admin"), validateRequest(userValidation.userBlockedSchema), userController.userBlocked);
+router.patch("/admin-user-blocked", auth("admin"), validateRequest(userValidation.userBlockedSchema), userController.userBlocked);
 
 // Endpoint to delete a user from the database.
-router.delete("/delete-user/:id", auth("admin"), userController.deleteUser);
+router.delete("/admin-delete-user/:id", auth("admin"), userController.adminDeleteUser);
 
 export const userRoutes = router;

@@ -11,7 +11,6 @@ const LikeIntoDB = async (payload: TLike) => {
     const blogData = await Blog.findById(payload.blog);
 
     if (blogData && blogData.likes !== undefined) await Blog.findByIdAndUpdate(payload.blog, { likes: blogData.likes + 1 });
-
     return { _id, blog, user };
 }
 
@@ -28,7 +27,6 @@ const unLikeIntoDB = async (id: string) => {
     }
 
     await Like.findByIdAndDelete(id).select("-__v");
-
     return null;
 }
 
@@ -39,7 +37,6 @@ const getAllLikeIntoDB = async () => {
 
 const deleteLikeIntoDB = async (id: string) => {
     await Like.findByIdAndDelete(id);
-    
     return null;
 }
 

@@ -2,20 +2,19 @@ import { Router } from "express";
 import validateRequest from "../../middleware/validateRequest";
 import { likeValidation } from "./like.validation";
 import { likeController } from "./like.controller";
-import auth from "../../middleware/auth";
 
-const route = Router();
+const router = Router();
 
 // API endpoint for like blog.
-route.post("/like", auth("admin"), validateRequest(likeValidation.likeSchema), likeController.Like);
+router.post("/like", validateRequest(likeValidation.likeSchema), likeController.Like);
 
 // API endpoint for unlike blog.
-route.delete("/unlike/:id", auth("admin"), likeController.unLike);
+router.delete("/unlike/:id", likeController.unLike);
 
 // API endpoint for get all like.
-route.get("/get-all-like", auth("admin"), likeController.getAllLike);
+router.get("/get-all-like", likeController.getAllLike);
 
 // API endpoint for delete like.
-route.delete("/delete-like/:id", auth("admin"), likeController.deleteLike);
+router.delete("/delete-like/:id", likeController.deleteLike);
 
-export const likeRoutes = route;
+export const likeRoutes = router;

@@ -35,7 +35,6 @@ const signUpIntoDB = async (img: any, payload: TCreateUser) => {
         sendEmail(payload.email, "Verify Your Account", "Verify Your Account", otp);
 
         const { image, name, email, isVerified } = await User.create(payload);
-
         return { image, name, email, isVerified };
     } else {
         if (isUserExists.image) deleteImgOnCloudinary(isUserExists.image.publicId);
@@ -60,7 +59,6 @@ const signUpIntoDB = async (img: any, payload: TCreateUser) => {
         await sendEmail(payload.email, "Verify Your Account", "Verify Your Account", otp);
 
         const res = User.findOneAndUpdate({ email: payload.email }, { image, otp, otpExpiry }, { new: true }).select("-_id name email image isVerified");
-
         return res;
     }
 }
@@ -76,7 +74,6 @@ const getAdminDashboardStaticsInToDB = async () => {
 const getAdminInToDB = async () => {
     // Get only admin data.
     const res = await User.find({ role: "admin" }).select("_id name email image role isVerified");
-
     return res;
 }
 
@@ -117,11 +114,10 @@ const updateAdminInToDB = async (img: any, payload: TUpdateUser) => {
     }
 
     const res = await User.findById(payload?.id).select("-_id image name email");
-
     return res;
 }
 
-const getAllUserInToDB = async () => {
+const adminGetAllUserInToDB = async () => {
     // Get all users.
     const res = await User.find().sort({ createdAt: "desc" }).select("_id name email image role isVerified isBlocked");
     return res;
@@ -130,14 +126,12 @@ const getAllUserInToDB = async () => {
 const userBlockedInToDB = async (id: string, payload: any) => {
     // Update the user blocked status in the database.
     const res = await User.findByIdAndUpdate(id, { isBlocked: payload }, { new: true }).select("-_id isBlocked");
-
     return res;
 }
 
-const deleteUserInToDB = async (id: string) => {
+const adminDeleteUserInToDB = async (id: string) => {
     // Delete a user from the database.
     await User.findByIdAndDelete(id);
-
     return null;
 }
 
@@ -146,7 +140,7 @@ export const userService = {
     getAdminDashboardStaticsInToDB,
     getAdminInToDB,
     updateAdminInToDB,
-    getAllUserInToDB,
+    adminGetAllUserInToDB,
     userBlockedInToDB,
-    deleteUserInToDB,
+    adminDeleteUserInToDB,
 }

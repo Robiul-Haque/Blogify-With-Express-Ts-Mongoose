@@ -2,20 +2,19 @@ import { Router } from "express";
 import validateRequest from "../../middleware/validateRequest";
 import { commentValidation } from "./comment.validation";
 import { commentController } from "./comment.controller";
-import auth from "../../middleware/auth";
 
-const route = Router();
+const router = Router();
 
 // API endpoint for creating a comment for blog
-route.post("/create-comment", auth("admin"), validateRequest(commentValidation.createCommentSchema), commentController.createComment);
+router.post("/create-comment", validateRequest(commentValidation.createCommentSchema), commentController.createComment);
 
 // API endpoint for get all comment for blog
-route.get("/get-all-comment/:id", auth("admin"), commentController.getAllComment);
+router.get("/get-all-comment/:id", commentController.getAllComment);
 
 // API endpoint for updating comment for blog
-route.patch("/update-comment", auth("admin"), validateRequest(commentValidation.updateCommentSchema), commentController.updateComment);
+router.patch("/update-comment", validateRequest(commentValidation.updateCommentSchema), commentController.updateComment);
 
 // API endpoint for deleting comment for blog
-route.delete("/delete-comment/:id", auth("admin"), commentController.deleteComment);
+router.delete("/delete-comment/:id", commentController.deleteComment);
 
-export const commentRoutes = route;
+export const commentRoutes = router;

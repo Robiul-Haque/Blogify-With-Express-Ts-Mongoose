@@ -59,9 +59,9 @@ const updateAdmin: RequestHandler = catchAsync(async (req: Request, res: Respons
     });
 });
 
-const getAllUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+const adminGetAllUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     // Call the service method to get all user.
-    const result = await userService.getAllUserInToDB();
+    const result = await userService.adminGetAllUserInToDB();
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -85,11 +85,11 @@ const userBlocked: RequestHandler = catchAsync(async (req: Request, res: Respons
     });
 });
 
-const deleteUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+const adminDeleteUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const id = req.params.id;
 
     // Call the service method to delete user.
-    const result = await userService.deleteUserInToDB(id);
+    const result = await userService.adminDeleteUserInToDB(id);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -104,7 +104,7 @@ export const userController = {
     getAdminDashboardStatics,
     getAdmin,
     updateAdmin,
-    getAllUser,
+    adminGetAllUser,
     userBlocked,
-    deleteUser,
+    adminDeleteUser,
 }
