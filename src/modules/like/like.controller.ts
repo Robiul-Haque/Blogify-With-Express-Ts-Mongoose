@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
-import catchAsync from "../../../utils/catchAsync";
+import catchAsync from "../../utils/catchAsync";
 import { likeService } from "./like.service";
-import sendResponse from "../../../utils/sendResponse";
+import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
 const Like: RequestHandler = catchAsync(async (req: Request, res: Response) => {

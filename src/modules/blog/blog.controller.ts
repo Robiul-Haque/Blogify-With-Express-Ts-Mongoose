@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
-import catchAsync from "../../../utils/catchAsync";
+import catchAsync from "../../utils/catchAsync";
 import { blogService } from "./blog.service";
-import sendResponse from "../../../utils/sendResponse";
+import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
 const createBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {

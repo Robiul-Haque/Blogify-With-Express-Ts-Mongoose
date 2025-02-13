@@ -1,5 +1,5 @@
 import config from "../config";
-import { User } from "../modules/admin/user/user.model";
+import { User } from "../modules/user/user.model";
 
 const newAdminData = {
     name: "Robiul Haque",

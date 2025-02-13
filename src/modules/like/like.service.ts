@@ -1,4 +1,4 @@
-import AppError from "../../../errors/appError";
+import AppError from "../../errors/appError";
 import { Blog } from "../blog/blog.model";
 import { TLike } from "./like.interface";
 import { Like } from "./like.model";

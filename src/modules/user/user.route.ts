@@ -1,10 +1,10 @@
 import { Router } from "express";
-import upload from "../../../middleware/handleUpload";
-import bodyParser from "../../../middleware/bodyParser";
-import validateRequest from "../../../middleware/validateRequest";
+import upload from "../../middleware/handleUpload";
+import bodyParser from "../../middleware/bodyParser";
+import validateRequest from "../../middleware/validateRequest";
 import { userValidation } from "./user.validation";
 import { userController } from "./user.controller";
-import verifyToken from "../../../middleware/verifyToken";
+import verifyToken from "../../middleware/verifyToken";
 
 const router = Router();
 

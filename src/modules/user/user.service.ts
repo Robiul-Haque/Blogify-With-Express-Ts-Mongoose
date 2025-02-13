@@ -1,13 +1,13 @@
 import { TUpdateUser, TUser } from "./user.interface";
-import { uploadImgToCloudinary } from "../../../utils/uploadImgToCloudinary";
-import generateOtp from "../../../utils/generateOtp";
-import sendEmail from "../../../utils/sendEmail";
+import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
+import generateOtp from "../../utils/generateOtp";
+import sendEmail from "../../utils/sendEmail";
 import { User } from "./user.model";
 import { Blog } from "../blog/blog.model";
-import AppError from "../../../errors/appError";
+import AppError from "../../errors/appError";
 import httpStatus from "http-status";
-import { updateImgToCloudinary } from "../../../utils/updateImgToCloudinary";
-import { deleteImgOnCloudinary } from "../../../utils/deleteImgToCloudinary";
+import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
+import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
 
 const signUpIntoDB = async (img: any, payload: TUser) => {
     // Check if a user already exists with the given email, then delete the uploaded image form cloudinary and update the Otp & otpExpiry or create new user into DB & upload image to cloudinary.
