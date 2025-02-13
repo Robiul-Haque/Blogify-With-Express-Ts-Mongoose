@@ -1,4 +1,4 @@
-import { TUpdateUser, TUser } from "./user.interface";
+import { TCreateUser, TUpdateUser } from "./user.interface";
 import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
 import generateOtp from "../../utils/generateOtp";
 import sendEmail from "../../utils/sendEmail";
@@ -9,7 +9,7 @@ import httpStatus from "http-status";
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
 
-const signUpIntoDB = async (img: any, payload: TUser) => {
+const signUpIntoDB = async (img: any, payload: TCreateUser) => {
     // Check if a user already exists with the given email, then delete the uploaded image form cloudinary and update the Otp & otpExpiry or create new user into DB & upload image to cloudinary.
     const isUserExists = await User.findOne({ email: payload.email });
     if (!isUserExists) {
@@ -65,7 +65,7 @@ const signUpIntoDB = async (img: any, payload: TUser) => {
     }
 }
 
-const getDashboardStaticsInToDB = async () => {
+const getAdminDashboardStaticsInToDB = async () => {
     // Retrieve all statics for dashboard.
     const user = await User.countDocuments();
     const blog = await Blog.countDocuments();
@@ -73,14 +73,14 @@ const getDashboardStaticsInToDB = async () => {
     return { user, blog, topBlogs };
 }
 
-const getUserInToDB = async () => {
-    // Get only user data.
+const getAdminInToDB = async () => {
+    // Get only admin data.
     const res = await User.find({ role: "admin" }).select("_id name email image role isVerified");
 
     return res;
 }
 
-const updateUserInToDB = async (img: any, payload: TUpdateUser) => {
+const updateAdminInToDB = async (img: any, payload: TUpdateUser) => {
     const isExistsAdmin = await User.findById(payload?.id);
     if (!isExistsAdmin) throw new AppError(httpStatus.NOT_FOUND, "Admin not found");
 
@@ -143,9 +143,9 @@ const deleteUserInToDB = async (id: string) => {
 
 export const userService = {
     signUpIntoDB,
-    getDashboardStaticsInToDB,
-    getUserInToDB,
-    updateUserInToDB,
+    getAdminDashboardStaticsInToDB,
+    getAdminInToDB,
+    updateAdminInToDB,
     getAllUserInToDB,
     userBlockedInToDB,
     deleteUserInToDB,

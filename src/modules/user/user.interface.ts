@@ -1,4 +1,4 @@
-export type TUser = {
+export type TCreateUser = {
     name: string;
     email: string;
     image?: {

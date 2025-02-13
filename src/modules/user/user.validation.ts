@@ -8,7 +8,7 @@ const createUserSchema = z.object({
     })
 });
 
-const updateUserSchema = z.object({
+const updateAdminSchema = z.object({
     body: z.object({
         id: z.string(),
         name: z.string(),
@@ -24,6 +24,6 @@ const userBlockedSchema = z.object({
 
 export const userValidation = {
     createUserSchema,
-    updateUserSchema,
+    updateAdminSchema,
     userBlockedSchema,
 }

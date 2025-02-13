@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
-import { TUser } from "./user.interface";
+import { TCreateUser } from "./user.interface";
 import { userService } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
@@ -10,7 +10,7 @@ const signUp: RequestHandler = catchAsync(async (req: Request, res: Response) =>
     const newUser = req.body;
 
     // Call the service method to create a new user in the database.
-    const result = await userService.signUpIntoDB(img, newUser as TUser);
+    const result = await userService.signUpIntoDB(img, newUser as TCreateUser);
 
     sendResponse(res, {
         statusCode: httpStatus.CREATED,
@@ -20,9 +20,9 @@ const signUp: RequestHandler = catchAsync(async (req: Request, res: Response) =>
     });
 });
 
-const getDashboardStatics: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-    // Call the service method to get dashboard statics.
-    const result = await userService.getDashboardStaticsInToDB();
+const getAdminDashboardStatics: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    // Call the service method to get admin dashboard statics.
+    const result = await userService.getAdminDashboardStaticsInToDB();
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -32,9 +32,9 @@ const getDashboardStatics: RequestHandler = catchAsync(async (req: Request, res:
     });
 });
 
-const getUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-    // Call the service method to get user.
-    const result = await userService.getUserInToDB();
+const getAdmin: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    // Call the service method to get admin.
+    const result = await userService.getAdminInToDB();
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -44,12 +44,12 @@ const getUser: RequestHandler = catchAsync(async (req: Request, res: Response) =
     });
 });
 
-const updateUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+const updateAdmin: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const img = req.file;
     const data = req.body;
 
-    // Call the service method to update user info.
-    const result = await userService.updateUserInToDB(img, data);
+    // Call the service method to update admin info.
+    const result = await userService.updateAdminInToDB(img, data);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -101,9 +101,9 @@ const deleteUser: RequestHandler = catchAsync(async (req: Request, res: Response
 
 export const userController = {
     signUp,
-    getDashboardStatics,
-    getUser,
-    updateUser,
+    getAdminDashboardStatics,
+    getAdmin,
+    updateAdmin,
     getAllUser,
     userBlocked,
     deleteUser,
