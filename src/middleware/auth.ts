@@ -7,7 +7,7 @@ import AppError from "../errors/appError";
 import httpStatus from "http-status";
 
 // Middleware to handle token authentication
-const verifyToken = (role: string) => {
+const auth = (role: string) => {
     return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const token = req.headers.authorization;
         if (!token) throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
@@ -29,4 +29,4 @@ const verifyToken = (role: string) => {
     });
 }
 
-export default verifyToken;
+export default auth;
