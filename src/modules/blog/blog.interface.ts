@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-export type TBlog = {
+export type TCreateBlog = {
     image: {
         url: string;
         publicId: string;

@@ -8,19 +8,30 @@ import auth from "../../middleware/auth";
 
 const router = Router();
 
-// Endpoint for create blog. Handles image upload, validates request body, and creates a new blog.
-router.post("/create-blog", auth("admin"), upload.single("image"), bodyParser, validateRequest(blogValidation.createBlogSchema), blogController.createBlog);
 
-// Endpoint for get all blog.
-router.get("/get-all-blog", auth("admin"), blogController.getAllBlog);
 
-// Endpoint for get blog by ID.
-router.get("/get-blog/:id", auth("admin"), blogController.getBlog);
+// Blog endpoint for admin.
+// Endpoint for admin create blog. Handles image upload, validates request body, and creates a new blog.
+router.post("/admin-create-blog", auth("admin"), upload.single("image"), bodyParser, validateRequest(blogValidation.adminCreateBlogSchema), blogController.adminCreateBlog);
 
-// Endpoint for update blog, Handles image upload, validates request body, and updates a blog.
-router.patch("/update-blog", auth("admin"), upload.single("image"), bodyParser, validateRequest(blogValidation.updateBlogSchema), blogController.updateBlog);
+// Endpoint for get admin all blog.
+router.get("/admin-get-all-blog", auth("admin"), blogController.adminGetAllBlog);
 
-// Endpoint for delete blog by ID.
-router.delete("/delete-blog/:id", auth("admin"), blogController.deleteBlog);
+// Endpoint for get admin blog by ID.
+router.get("/admin-get-blog/:id", auth("admin"), blogController.adminGetBlog);
+
+// Endpoint for admin update blog, Handles image upload, validates request body, and updates a blog.
+router.patch("/admin-update-blog", auth("admin"), upload.single("image"), bodyParser, validateRequest(blogValidation.adminUpdateBlogSchema), blogController.adminUpdateBlog);
+
+// Endpoint for admin delete blog by ID.
+router.delete("/admin-delete-blog/:id", auth("admin"), blogController.adminDeleteBlog);
+
+
+
+// Client side endpoint for user
+// Endpoint for get all published blog.
+router.get("get-all-blog", blogController.getAllBlog);
+
+
 
 export const blogRoutes = router;

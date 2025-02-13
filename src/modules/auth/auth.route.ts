@@ -11,7 +11,7 @@ router.post("/verify-otp-for-new-user", validateRequest(authValidation.userVerif
 // Endpoint for user sign-in.
 router.post("/sign-in", validateRequest(authValidation.signInAuthSchema), authController.signIn);
 
-// Endpoint for refresh token to create new validate JWT token.
+// Endpoint for refresh token to create new validate JWT access token.
 router.post("/refresh-token", validateRequest(authValidation.refreshTokenAuthSchema), authController.refreshToken);
 
 // Endpoint for forget password.
