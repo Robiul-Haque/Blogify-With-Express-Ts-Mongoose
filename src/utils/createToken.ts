@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 
 // Generates a JSON Web Token.
-export const createToken = (payload: { email: string }, jwt_secret: string, expiresIn: any): string => {
-    return jwt.sign({ email: payload.email }, jwt_secret, { expiresIn });
+export const createToken = (payload: { name: string, email: string, role: string }, jwt_secret: string, expiresIn: any): string => {
+    const { name, email, role } = payload;
+    
+    return jwt.sign({ name, email, role }, jwt_secret, { expiresIn });
 };
