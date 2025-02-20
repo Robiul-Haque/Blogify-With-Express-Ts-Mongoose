@@ -16,7 +16,7 @@ const signInAuthSchema = z.object({
 
 const refreshTokenAuthSchema = z.object({
   cookies: z.object({
-    refreshToken: z.string(),
+    refreshToken: z.string({required_error: "Refresh token is required!"}),
   }),
 });
 

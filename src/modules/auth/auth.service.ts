@@ -53,15 +53,13 @@ const signInIntoDB = async (payload: TLoginUser) => {
 };
 
 const refreshToken = async (token: string) => {
-    if (!token) throw new AppError(httpStatus.BAD_REQUEST, "Token not provided");
-
     // Verify and decode the refresh token.
     const { email } = jwt.verify(token, config.jwt_refresh_key as string) as JwtPayload;
 
     const existingUser = await User.findOne({ email });
 
     // Generate a new access token.
-    const accessToken = createToken({ name: existingUser?.name, email: existingUser?.name, role: existingUser?.role }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
+    const accessToken = createToken({ name: existingUser?.name, email: existingUser?.email, role: existingUser?.role }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
 
     return { accessToken };
 };
