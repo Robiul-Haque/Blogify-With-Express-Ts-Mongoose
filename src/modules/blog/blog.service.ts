@@ -2,6 +2,9 @@ import AppError from "../../errors/appError";
 import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { uploadImgToCloudinary } from "../../utils/uploadImgToCloudinary";
+import { Comment } from "../comment/comment.model";
+import { Like } from "../like/like.model";
+import { User } from "../user/user.model";
 import { TCreateBlog, TUpdateBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
 import HttpStatus from "http-status";
@@ -29,9 +32,12 @@ const adminGetAllBlogIntoDB = async () => {
 }
 
 const adminGetBlogIntoDB = async (id: string) => {
-    const res = await Blog.findById(id);
-    if (res?.isPublished === false) throw new AppError(HttpStatus.NOT_FOUND, "Blog is not published yet");
-    return res;
+    const blog = await Blog.findById(id).populate({ path: "author", select: "name image role -_id" });
+    const like = await Like.find({ blog: blog?._id });
+    const userLike = await Promise.all(like.map(async (like) => await User.findById(like.user).select("-_id name image")));
+    const userComment = await Comment.find({ blog: blog?._id }).populate({ path: "user", select: "name image role -_id" });
+
+    return { blog, userLike, userComment };
 }
 
 const adminUpdateBlogIntoDB = async (id: string, img: any, payload: TUpdateBlog) => {
