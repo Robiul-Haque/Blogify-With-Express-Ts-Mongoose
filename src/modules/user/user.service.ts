@@ -12,6 +12,7 @@ import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
 const signUpIntoDB = async (img: any, payload: TCreateUser) => {
     // Check if a user already exists with the given email, then delete the uploaded image form cloudinary and update the Otp & otpExpiry or create new user into DB & upload image to cloudinary.
     const isUserExists = await User.findOne({ email: payload.email });
+    
     if (!isUserExists) {
         if (img) {
             const imagePath = img?.path;

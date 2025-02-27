@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import { TBlog } from "./blog.interface";
+import { TCreateBlog } from "./blog.interface";
 
-const blogSchema: Schema = new Schema<TBlog>(
+const blogSchema: Schema = new Schema<TCreateBlog>(
     {
         image: {
             url: {
@@ -45,4 +45,4 @@ const blogSchema: Schema = new Schema<TBlog>(
     }, { timestamps: true }
 );
 
-export const Blog = model<TBlog>('Blog', blogSchema);
+export const Blog = model<TCreateBlog>('Blog', blogSchema);

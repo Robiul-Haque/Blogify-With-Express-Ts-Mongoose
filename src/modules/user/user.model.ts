@@ -1,9 +1,9 @@
 import { model, Schema } from "mongoose";
-import { TUser } from "./user.interface";
+import { TCreateUser } from "./user.interface";
 import config from "../../config";
 import bcrypt from "bcrypt";
 
-const userSchema: Schema = new Schema(
+const userSchema: Schema = new Schema<TCreateUser>(
     {
         name: {
             type: String,
@@ -54,9 +54,9 @@ const userSchema: Schema = new Schema(
 
 // Middleware to hash the user password before saving it to the database.
 userSchema.pre("save", async function (next) {
-    const user = this as unknown as TUser;
+    const user = this as unknown as TCreateUser;
     user.password = await bcrypt.hash(user.password, Number(config.salt_rounds));
     next();
 });
 
-export const User = model<TUser>("User", userSchema);
+export const User = model<TCreateUser>("User", userSchema);

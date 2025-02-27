@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
+import { TLike } from "./like.interface";
 
-const LikeSchema: Schema = new Schema(
+const LikeSchema: Schema = new Schema<TLike>(
     {
         blog: {
             type: Schema.Types.ObjectId,
@@ -17,4 +18,4 @@ const LikeSchema: Schema = new Schema(
     }, { timestamps: true }
 );
 
-export const Like = model('Like', LikeSchema);
+export const Like = model<TLike>('Like', LikeSchema);
