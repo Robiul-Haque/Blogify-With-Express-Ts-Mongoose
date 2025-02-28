@@ -27,7 +27,7 @@ const adminCreateBlogIntoDB = async (img: any, payload: TCreateBlog) => {
 }
 
 const adminGetAllBlogIntoDB = async () => {
-    const res = await Blog.find();
+    const res = await Blog.find().populate({ path: "author", select: "name role -_id" });
     return res;
 }
 
