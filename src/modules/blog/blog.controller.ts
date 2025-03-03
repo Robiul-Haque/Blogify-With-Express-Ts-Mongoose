@@ -31,11 +31,25 @@ const adminGetAllBlog: RequestHandler = catchAsync(async (req: Request, res: Res
     });
 });
 
-const adminGetBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+const adminGetBlogForView: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const blogId = req.params.id;
 
-    // Call the service method to admin get single blog with blog ID in the database.
-    const result = await blogService.adminGetBlogIntoDB(blogId);
+    // Call the service method to admin get single blog for view with blog ID in the database.
+    const result = await blogService.adminGetBlogForViewIntoDB(blogId);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data retrieved successfully",
+        data: result
+    });
+});
+
+const adminGetBlogForUpdate: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const blogId = req.params.id;
+
+    // Call the service method to admin get single blog for update with blog ID in the database.
+    const result = await blogService.adminGetBlogForUpdateIntoDB(blogId);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -89,7 +103,8 @@ const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 export const blogController = {
     adminCreateBlog,
     adminGetAllBlog,
-    adminGetBlog,
+    adminGetBlogForView,
+    adminGetBlogForUpdate,
     adminUpdateBlog,
     adminDeleteBlog,
     getAllBlog,

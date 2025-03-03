@@ -16,8 +16,11 @@ router.post("/admin-create-blog", auth("admin"), upload.single("image"), bodyPar
 // Endpoint for get admin all blog.
 router.get("/admin-get-all-blog", auth("admin"), blogController.adminGetAllBlog);
 
-// Endpoint for get admin blog by ID.
-router.get("/admin-get-blog/:id", auth("admin"), blogController.adminGetBlog);
+// Endpoint for get admin blog for view by ID.
+router.get("/admin-get-blog-for-view/:id", auth("admin"), blogController.adminGetBlogForView);
+
+// Endpoint for get admin blog for update by ID.
+router.get("/admin-get-blog-for-update/:id", auth("admin"), blogController.adminGetBlogForUpdate);
 
 // Endpoint for admin update blog, Handles image upload, validates request body, and updates a blog.
 router.patch("/admin-update-blog", auth("admin"), upload.single("image"), bodyParser, validateRequest(blogValidation.adminUpdateBlogSchema), blogController.adminUpdateBlog);

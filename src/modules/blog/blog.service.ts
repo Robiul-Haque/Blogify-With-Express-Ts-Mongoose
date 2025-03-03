@@ -27,17 +27,22 @@ const adminCreateBlogIntoDB = async (img: any, payload: TCreateBlog) => {
 }
 
 const adminGetAllBlogIntoDB = async () => {
-    const res = await Blog.find().populate({ path: "author", select: "name role -_id" });
+    const res = await Blog.find().select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" });
     return res;
 }
 
-const adminGetBlogIntoDB = async (id: string) => {
+const adminGetBlogForViewIntoDB = async (id: string) => {
     const blog = await Blog.findById(id).populate({ path: "author", select: "name image role -_id" });
     const like = await Like.find({ blog: blog?._id });
     const userLike = await Promise.all(like.map(async (like) => await User.findById(like.user).select("-_id name image")));
     const userComment = await Comment.find({ blog: blog?._id }).populate({ path: "user", select: "name image role -_id" });
 
     return { blog, userLike, userComment };
+}
+
+const adminGetBlogForUpdateIntoDB = async (id: string) => {
+    const res = await Blog.findById(id).select("image title content category");
+    return res;
 }
 
 const adminUpdateBlogIntoDB = async (id: string, img: any, payload: TUpdateBlog) => {
@@ -76,7 +81,8 @@ const getAllBlogIntoDB = async () => {
 export const blogService = {
     adminCreateBlogIntoDB,
     adminGetAllBlogIntoDB,
-    adminGetBlogIntoDB,
+    adminGetBlogForViewIntoDB,
+    adminGetBlogForUpdateIntoDB,
     adminUpdateBlogIntoDB,
     adminDeleteBlogIntoDB,
     getAllBlogIntoDB,
