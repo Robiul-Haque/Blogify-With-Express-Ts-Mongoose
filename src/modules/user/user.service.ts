@@ -12,7 +12,7 @@ import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
 const signUpIntoDB = async (img: any, payload: TCreateUser) => {
     // Check if a user already exists with the given email, then delete the uploaded image form cloudinary and update the Otp & otpExpiry or create new user into DB & upload image to cloudinary.
     const isUserExists = await User.findOne({ email: payload.email });
-    
+
     if (!isUserExists) {
         if (img) {
             const imagePath = img?.path;
@@ -74,7 +74,7 @@ const getAdminDashboardStaticsInToDB = async () => {
 
 const getAdminInToDB = async () => {
     // Get only admin data.
-    const res = await User.find({ role: "admin" }).select("_id name email image role isVerified");
+    const res = await User.findOne({ role: "admin" }).select("_id name email image role isVerified");
     return res;
 }
 
