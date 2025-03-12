@@ -31,6 +31,11 @@ const adminGetAllBlogIntoDB = async () => {
     return res;
 }
 
+const adminChangeBlogStatusIntoDB = async (id: string, payload: boolean) => {
+    const res = await Blog.findByIdAndUpdate(id, { isPublished: payload }, { new: true });
+    return res;
+}
+
 const adminGetBlogForViewIntoDB = async (id: string) => {
     const blog = await Blog.findById(id).populate({ path: "author", select: "name image role -_id" });
     const like = await Like.find({ blog: blog?._id });
@@ -81,6 +86,7 @@ const getAllBlogIntoDB = async () => {
 export const blogService = {
     adminCreateBlogIntoDB,
     adminGetAllBlogIntoDB,
+    adminChangeBlogStatusIntoDB,
     adminGetBlogForViewIntoDB,
     adminGetBlogForUpdateIntoDB,
     adminUpdateBlogIntoDB,

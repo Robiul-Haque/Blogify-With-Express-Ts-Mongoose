@@ -31,6 +31,19 @@ const adminGetAllBlog: RequestHandler = catchAsync(async (req: Request, res: Res
     });
 });
 
+const adminChangeBlogStatus: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    // Call the service method to admin get all blog in the database.
+    const { id, data } = req.body;
+    const result = await blogService.adminChangeBlogStatusIntoDB(id, data);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Blog update successfully",
+        data: result
+    });
+});
+
 const adminGetBlogForView: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const blogId = req.params.id;
 
@@ -103,6 +116,7 @@ const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 export const blogController = {
     adminCreateBlog,
     adminGetAllBlog,
+    adminChangeBlogStatus,
     adminGetBlogForView,
     adminGetBlogForUpdate,
     adminUpdateBlog,
