@@ -16,7 +16,7 @@ router.post("/admin-create-blog", auth("admin"), upload.single("image"), bodyPar
 // Endpoint for get admin all blog.
 router.get("/admin-get-all-blog", auth("admin"), blogController.adminGetAllBlog);
 
-// Endpoint for get admin all blog.
+// Endpoint for update blog status by admin.
 router.patch("/admin-change-blog-status", auth("admin"), blogController.adminChangeBlogStatus);
 
 // Endpoint for get admin blog for view by ID.

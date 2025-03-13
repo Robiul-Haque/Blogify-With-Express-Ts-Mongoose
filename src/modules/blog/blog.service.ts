@@ -26,9 +26,21 @@ const adminCreateBlogIntoDB = async (img: any, payload: TCreateBlog) => {
     return res;
 }
 
-const adminGetAllBlogIntoDB = async () => {
-    const res = await Blog.find().select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" });
-    return res;
+const adminGetAllBlogIntoDB = async (name: string) => {
+    // Search for blog by title or author's name.
+    const regex = new RegExp(name, "i");
+    const user = await User.findOne({ name: regex });
+
+    if (user) {
+        const res = await Blog.find({ author: user?._id }).select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" });
+        return res;
+    } else if (!name) {
+        const res = await Blog.find().select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" });
+        return res;
+    } else {
+        const res = await Blog.find({ title: regex }).select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" });
+        return res
+    }
 }
 
 const adminChangeBlogStatusIntoDB = async (id: string, payload: boolean) => {

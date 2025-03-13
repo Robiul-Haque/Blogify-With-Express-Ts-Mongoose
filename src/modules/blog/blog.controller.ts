@@ -21,7 +21,8 @@ const adminCreateBlog: RequestHandler = catchAsync(async (req: Request, res: Res
 
 const adminGetAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     // Call the service method to admin get all blog in the database.
-    const result = await blogService.adminGetAllBlogIntoDB();
+    const name = (req.query.name as string) || "";
+    const result = await blogService.adminGetAllBlogIntoDB(name);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -32,7 +33,7 @@ const adminGetAllBlog: RequestHandler = catchAsync(async (req: Request, res: Res
 });
 
 const adminChangeBlogStatus: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-    // Call the service method to admin get all blog in the database.
+    // Call the service method to admin change the blog status in the database.
     const { id, data } = req.body;
     const result = await blogService.adminChangeBlogStatusIntoDB(id, data);
 
