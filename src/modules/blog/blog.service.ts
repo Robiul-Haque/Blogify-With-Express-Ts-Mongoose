@@ -26,20 +26,24 @@ const adminCreateBlogIntoDB = async (img: any, payload: TCreateBlog) => {
     return res;
 }
 
-const adminGetAllBlogIntoDB = async (name: string) => {
+const adminGetAllBlogIntoDB = async (status: string, name: string) => {
     // Search for blog by title or author's name.
     const regex = new RegExp(name, "i");
     const user = await User.findOne({ name: regex });
 
-    if (user) {
-        const res = await Blog.find({ author: user?._id }).select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" });
+    if (user && name) {
+        // When search with author name.
+        const res = await Blog.find({ author: user?._id }).select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" }).sort({ createdAt: -1 });
         return res;
     } else if (!name) {
-        const res = await Blog.find().select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" });
+        // When search with blog status or not.
+        const query = status === "true" ? { isPublished: true } : status === "false" ? { isPublished: false } : {};
+        const res = await Blog.find(query).select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" }).sort({ createdAt: -1 });
         return res;
     } else {
-        const res = await Blog.find({ title: regex }).select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" });
-        return res
+        // When search with blog title.
+        const res = await Blog.find({ title: regex }).select("image title author category likes comments isPublished").populate({ path: "author", select: "name role -_id" }).sort({ createdAt: -1 });
+        return res;
     }
 }
 
