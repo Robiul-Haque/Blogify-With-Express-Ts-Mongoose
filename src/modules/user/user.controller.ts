@@ -61,7 +61,8 @@ const updateAdmin: RequestHandler = catchAsync(async (req: Request, res: Respons
 
 const adminGetAllUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     // Call the service method to get all user.
-    const result = await userService.adminGetAllUserInToDB();
+    const { status, search } = req.query;
+    const result = await userService.adminGetAllUserInToDB(status as string, search as string);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,

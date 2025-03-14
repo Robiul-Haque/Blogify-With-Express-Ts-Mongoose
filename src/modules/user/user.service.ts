@@ -118,10 +118,29 @@ const updateAdminInToDB = async (img: any, payload: TUpdateUser) => {
     return res;
 }
 
-const adminGetAllUserInToDB = async () => {
-    // Get all users.
-    const res = await User.find().sort({ createdAt: "desc" }).select("_id name email image role isVerified isBlocked");
-    return res;
+const adminGetAllUserInToDB = async (status: string, search: string) => {
+    // Combine filter by status and search into a single query.
+    let query: { [key: string]: any } = {};
+
+    if (status) {
+        // User filter by status.
+        query = status === "active" ? { isBlocked: false } : status === "block" ? { isBlocked: true } : {};
+        const res = await User.find(query).sort({ createdAt: -1 }).select("_id name email image role isVerified isBlocked");
+        return res;
+    } else if (search) {
+        // User filter by name or email.
+        query = {};
+        query.$or = [
+            { name: { $regex: search, $options: "i" } }, // Case-insensitive search for name
+            { email: { $regex: search, $options: "i" } }, // Case-insensitive search for email
+        ];
+        const res = await User.find(query).sort({ createdAt: -1 }).select("_id name email image role isVerified isBlocked");
+        return res;
+    } else {
+        // Get all users.
+        const res = await User.find().sort({ createdAt: -1 }).select("_id name email image role isVerified isBlocked");
+        return res;
+    }
 }
 
 const userBlockedInToDB = async (id: string, payload: any) => {
