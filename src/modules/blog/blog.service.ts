@@ -94,9 +94,20 @@ const adminDeleteBlogIntoDB = async (id: string) => {
     return null;
 }
 
-const getAllBlogIntoDB = async () => {
-    const res = await Blog.find({ isPublished: true });
-    return res;
+const getAllBlogIntoDB = async (name: string) => {
+    const regex = new RegExp(name, "i");
+    const user = await User.findOne({ name: regex });
+
+    if (name && !user) {
+        const res = await Blog.find({ title: regex, isPublished: true });
+        return res;
+    } else if (name && user) {
+        const res = await Blog.find({ author: user?._id, isPublished: true });
+        return res;
+    } else {
+        const res = await Blog.find({ isPublished: true });
+        return res;
+    }
 }
 
 export const blogService = {

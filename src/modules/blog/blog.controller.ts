@@ -104,7 +104,8 @@ const adminDeleteBlog: RequestHandler = catchAsync(async (req: Request, res: Res
 
 const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     // Call the service method to admin get all published blog in the database.
-    const result = await blogService.getAllBlogIntoDB();
+    const { name } = (req.query as { name: string }) || "";
+    const result = await blogService.getAllBlogIntoDB(name);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
