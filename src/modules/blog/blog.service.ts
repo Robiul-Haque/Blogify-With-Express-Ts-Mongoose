@@ -110,6 +110,12 @@ const getAllBlogIntoDB = async (name: string) => {
     }
 }
 
+const getBlogIntoDB = async (id: string) => {
+    const blog = await Blog.findById(id);
+    const author = await User.findById(blog?.author).select("name image role -_id");
+    return { blog, author };
+}
+
 export const blogService = {
     adminCreateBlogIntoDB,
     adminGetAllBlogIntoDB,
@@ -119,4 +125,5 @@ export const blogService = {
     adminUpdateBlogIntoDB,
     adminDeleteBlogIntoDB,
     getAllBlogIntoDB,
+    getBlogIntoDB,
 };
