@@ -113,7 +113,9 @@ const getAllBlogIntoDB = async (name: string) => {
 const getBlogIntoDB = async (id: string) => {
     const blog = await Blog.findById(id);
     const author = await User.findById(blog?.author).select("name image role -_id");
-    return { blog, author };
+    const comment = await Comment.find({ blog: blog?._id }).populate({ path: "user", select: "name image role -_id" });
+    const like = await Like.find({ blog: blog?._id });
+    return { blog, author, comment, like };
 }
 
 export const blogService = {
