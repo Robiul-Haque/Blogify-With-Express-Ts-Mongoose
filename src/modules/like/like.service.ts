@@ -5,7 +5,7 @@ import { Like } from "./like.model";
 import httpStatus from "http-status";
 
 const LikeIntoDB = async (payload: TLike) => {
-    // Create like into DB and increse like in the blog.
+    // Create like into DB and increment like in the blog.
     const { _id, blog, user } = await Like.create(payload);
 
     const blogData = await Blog.findById(payload.blog);
@@ -15,7 +15,7 @@ const LikeIntoDB = async (payload: TLike) => {
 }
 
 const unLikeIntoDB = async (id: string) => {
-    // Delete like and decrese like in the blog.
+    // Delete like and decrement like in the blog.
     const like = await Like.findById(id);
 
     const blogData = await Blog.findById(like?.blog);
