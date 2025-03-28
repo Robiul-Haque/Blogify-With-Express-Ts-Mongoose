@@ -5,6 +5,10 @@ import { Like } from "./like.model";
 import httpStatus from "http-status";
 
 const LikeIntoDB = async (payload: TLike) => {
+    // Check if user already liked the blog.
+    const existingLike = await Like.findOne({ blog: payload.blog, user: payload.user });
+    if (existingLike) throw new AppError(httpStatus.BAD_REQUEST, "You already liked this blog");
+
     // Create like into DB and increment like in the blog.
     const { _id, blog, user } = await Like.create(payload);
 
@@ -17,16 +21,18 @@ const LikeIntoDB = async (payload: TLike) => {
 const unLikeIntoDB = async (id: string) => {
     // Delete like and decrement like in the blog.
     const like = await Like.findById(id);
+    if (!like) throw new AppError(httpStatus.NOT_FOUND, "Like not found");
 
     const blogData = await Blog.findById(like?.blog);
+    if (!blogData) throw new AppError(httpStatus.NOT_FOUND, "Blog not found");
 
-    if (blogData && blogData.likes !== undefined && blogData.likes !== 0) {
-        await Blog.findByIdAndUpdate(id, { likes: blogData.likes - 1 });
+    if (blogData && blogData.likes !== undefined && blogData.likes > 0) {
+        await Blog.findByIdAndUpdate(like.blog, { $inc: { likes: -1 } });
     } else {
         throw new AppError(httpStatus.BAD_REQUEST, "Cannot unlike");
     }
 
-    await Like.findByIdAndDelete(id).select("-__v");
+    await Like.findByIdAndDelete(id);
     return null;
 }
 
