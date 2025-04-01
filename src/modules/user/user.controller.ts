@@ -27,7 +27,7 @@ const getAdminDashboardStatics: RequestHandler = catchAsync(async (req: Request,
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Data retriev successfully",
+        message: "Data retrieved successfully",
         data: result
     });
 });
@@ -39,7 +39,7 @@ const getAdmin: RequestHandler = catchAsync(async (req: Request, res: Response) 
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Data retriev successfully",
+        message: "Data retrieved successfully",
         data: result
     });
 });
@@ -100,6 +100,21 @@ const adminDeleteUser: RequestHandler = catchAsync(async (req: Request, res: Res
     });
 });
 
+const bookmarkBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const data = req.body;
+    // console.log(data);
+
+    // Call the service method to user bookmark blog.
+    const result = await userService.bookmarkBlogInToDB(data);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Blog bookmark successfully",
+        data: result
+    });
+});
+
 export const userController = {
     signUp,
     getAdminDashboardStatics,
@@ -108,4 +123,5 @@ export const userController = {
     adminGetAllUser,
     userBlocked,
     adminDeleteUser,
+    bookmarkBlog,
 }

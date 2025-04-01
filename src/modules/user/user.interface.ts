@@ -6,6 +6,7 @@ export type TCreateUser = {
         publicId: string;
     };
     password: string;
+    bookmark?: string[];
     role: 'user' | 'admin';
     isVerified: boolean;
     isBlocked: boolean;

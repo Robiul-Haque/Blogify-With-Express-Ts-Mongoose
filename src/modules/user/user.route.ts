@@ -11,9 +11,12 @@ const router = Router();
 // Endpoint for user registration database.
 router.post("/sign-up", upload.single('image'), bodyParser, validateRequest(userValidation.createUserSchema), userController.signUp);
 
+// Endpoint to bookmark blog in the database.
+router.patch("/bookmark/blog", validateRequest(userValidation.userCreateBookmarkBlogSchema), userController.bookmarkBlog);
+
 
 // Endpoint for admin.
-// Endpoint to get admin dashbord statics from the database.
+// Endpoint to get admin dashboard statics from the database.
 router.get("/get-admin-dashboard-statics", auth("admin"), userController.getAdminDashboardStatics);
 
 // Endpoint to get admin from the database.

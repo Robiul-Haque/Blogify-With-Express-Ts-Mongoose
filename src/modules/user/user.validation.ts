@@ -8,6 +8,13 @@ const createUserSchema = z.object({
     })
 });
 
+const userCreateBookmarkBlogSchema = z.object({
+    body: z.object({
+        blog: z.string(),
+        user: z.string(),
+    })
+});
+
 const updateAdminSchema = z.object({
     body: z.object({
         id: z.string(),
@@ -24,6 +31,7 @@ const userBlockedSchema = z.object({
 
 export const userValidation = {
     createUserSchema,
+    userCreateBookmarkBlogSchema,
     updateAdminSchema,
     userBlockedSchema,
 }

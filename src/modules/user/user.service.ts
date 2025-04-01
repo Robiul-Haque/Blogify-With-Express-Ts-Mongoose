@@ -155,6 +155,14 @@ const adminDeleteUserInToDB = async (id: string) => {
     return null;
 }
 
+const bookmarkBlogInToDB = async (payload: { user: string, blog: string }) => {
+    const { user, blog } = payload;
+
+    // User bookmark the blog in the database.
+    const res = await User.findByIdAndUpdate(user, { $addToSet: { bookmark: blog } }, { new: true }).select("-_id bookmark");
+    return res;
+}
+
 export const userService = {
     signUpIntoDB,
     getAdminDashboardStaticsInToDB,
@@ -163,4 +171,5 @@ export const userService = {
     adminGetAllUserInToDB,
     userBlockedInToDB,
     adminDeleteUserInToDB,
+    bookmarkBlogInToDB,
 }

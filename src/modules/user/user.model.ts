@@ -28,6 +28,11 @@ const userSchema: Schema = new Schema<TCreateUser>(
             type: String,
             required: true
         },
+        bookmark: {
+            type: [Schema.Types.ObjectId],
+            ref: "Blog",
+            default: []
+        },
         role: {
             type: String,
             enum: ["user", "admin"],
