@@ -100,17 +100,30 @@ const adminDeleteUser: RequestHandler = catchAsync(async (req: Request, res: Res
     });
 });
 
-const bookmarkBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+const addBookmark: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const data = req.body;
-    // console.log(data);
 
-    // Call the service method to user bookmark blog.
+    // Call the service method to user add bookmark blog.
     const result = await userService.bookmarkBlogInToDB(data);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: "Blog bookmark successfully",
+        data: result
+    });
+});
+
+const removeBookmark: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const data = req.body;
+
+    // Call the service method to user remove bookmark blog.
+    const result = await userService.bookmarkBlogInToDB(data);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Blog bookmark remove successfully",
         data: result
     });
 });
@@ -123,5 +136,6 @@ export const userController = {
     adminGetAllUser,
     userBlocked,
     adminDeleteUser,
-    bookmarkBlog,
+    addBookmark,
+    removeBookmark,
 }

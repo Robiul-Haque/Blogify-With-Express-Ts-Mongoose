@@ -11,8 +11,11 @@ const router = Router();
 // Endpoint for user registration database.
 router.post("/sign-up", upload.single('image'), bodyParser, validateRequest(userValidation.createUserSchema), userController.signUp);
 
-// Endpoint to bookmark blog in the database.
-router.patch("/bookmark/blog", validateRequest(userValidation.userCreateBookmarkBlogSchema), userController.bookmarkBlog);
+// Endpoint to user add bookmark blog in the database.
+router.patch("/bookmark/add/blog", validateRequest(userValidation.userCreateBookmarkBlogSchema), userController.addBookmark);
+
+// Endpoint to user remove bookmark blog in the database.
+router.patch("/bookmark/remove/blog", validateRequest(userValidation.userCreateBookmarkBlogSchema), userController.removeBookmark);
 
 
 // Endpoint for admin.
