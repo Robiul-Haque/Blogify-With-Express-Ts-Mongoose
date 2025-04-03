@@ -8,6 +8,7 @@ import AppError from "../../errors/appError";
 import httpStatus from "http-status";
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
+import { Types } from "mongoose";
 
 const signUpIntoDB = async (img: any, payload: TCreateUser) => {
     // Check if a user already exists with the given email, then delete the uploaded image form cloudinary and update the Otp & otpExpiry or create new user into DB & upload image to cloudinary.
@@ -155,11 +156,22 @@ const adminDeleteUserInToDB = async (id: string) => {
     return null;
 }
 
-const bookmarkBlogInToDB = async (payload: { user: string, blog: string }) => {
+const addBookmarkInToDB = async (payload: { user: string, blog: string }) => {
     const { user, blog } = payload;
 
     // User bookmark the blog in the database.
     const res = await User.findByIdAndUpdate(user, { $addToSet: { bookmark: blog } }, { new: true }).select("-_id bookmark");
+    return res;
+}
+
+const removeBookmarkInToDB = async (payload: { user: string, blog: string }) => {
+    const { user, blog } = payload;
+
+    // Ensure user and blog are valid ObjectId strings
+    if (!Types.ObjectId.isValid(user) || !Types.ObjectId.isValid(blog)) throw new Error("Invalid user ID or blog ID");
+
+    // Remove the blog ID from the bookmark array
+    const res = await User.findByIdAndUpdate(user, { $pull: { bookmark: blog } }, { new: true }).select("-_id bookmark");
     return res;
 }
 
@@ -171,5 +183,6 @@ export const userService = {
     adminGetAllUserInToDB,
     userBlockedInToDB,
     adminDeleteUserInToDB,
-    bookmarkBlogInToDB,
+    addBookmarkInToDB,
+    removeBookmarkInToDB,
 }

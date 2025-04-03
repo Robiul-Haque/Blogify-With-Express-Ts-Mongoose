@@ -104,12 +104,12 @@ const addBookmark: RequestHandler = catchAsync(async (req: Request, res: Respons
     const data = req.body;
 
     // Call the service method to user add bookmark blog.
-    const result = await userService.bookmarkBlogInToDB(data);
+    const result = await userService.addBookmarkInToDB(data);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Blog bookmark successfully",
+        message: "Blog bookmark add successfully",
         data: result
     });
 });
@@ -118,7 +118,7 @@ const removeBookmark: RequestHandler = catchAsync(async (req: Request, res: Resp
     const data = req.body;
 
     // Call the service method to user remove bookmark blog.
-    const result = await userService.bookmarkBlogInToDB(data);
+    const result = await userService.removeBookmarkInToDB(data);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
