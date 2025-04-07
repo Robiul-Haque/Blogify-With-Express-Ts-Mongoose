@@ -99,10 +99,10 @@ const resetPassword = async (email: string, newPassword: string) => {
     if (!user) throw new AppError(httpStatus.NOT_FOUND, "User not found");
 
     // Hash the new password.
-    const hashedNewPasswword = await bcrypt.hash(newPassword, Number(config.salt_rounds));
+    const hashedNewPassword = await bcrypt.hash(newPassword, Number(config.salt_rounds));
 
     // Update password in DB.
-    await User.findOneAndUpdate({ email }, { password: hashedNewPasswword });
+    await User.findOneAndUpdate({ email }, { password: hashedNewPassword });
 };
 
 export const authService = {
