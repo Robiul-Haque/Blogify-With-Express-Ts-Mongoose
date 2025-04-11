@@ -32,7 +32,7 @@ const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
 
 const signInIntoDB = async (payload: TLoginUser) => {
     const { email, password } = payload;
-    
+
     if (!email || !password) throw new AppError(httpStatus.BAD_REQUEST, "Email and password are required");
 
     const existingUser = await User.findOne({ email });
@@ -46,8 +46,8 @@ const signInIntoDB = async (payload: TLoginUser) => {
     if (!passwordMatch) throw new AppError(httpStatus.NOT_FOUND, "Password did not match");
 
     // Generate access and refresh token.
-    const accessToken = createToken({ id: existingUser?._id.toString(), name: existingUser?.name, email: existingUser?.email, role: existingUser?.role }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
-    const refreshToken = createToken({ id: existingUser?._id.toString(), name: existingUser?.name, email: existingUser?.email, role: existingUser?.role }, config.jwt_refresh_key as string, config.jwt_refresh_expire_in as string);
+    const accessToken = createToken({ id: existingUser?._id.toString(), name: existingUser?.name, email: existingUser?.email, image: existingUser?.image?.url || "", role: existingUser?.role }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
+    const refreshToken = createToken({ id: existingUser?._id.toString(), name: existingUser?.name, email: existingUser?.email, image: existingUser?.image?.url || "", role: existingUser?.role }, config.jwt_refresh_key as string, config.jwt_refresh_expire_in as string);
 
     return { accessToken, refreshToken };
 };
@@ -60,7 +60,7 @@ const refreshToken = async (token: string) => {
     if (!existingUser) throw new AppError(httpStatus.NOT_FOUND, "User not found");
 
     // Generate a new access token.
-    const accessToken = createToken({ id: existingUser?._id.toString(), name: existingUser?.name, email: existingUser?.email, role: existingUser?.role }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
+    const accessToken = createToken({ id: existingUser?._id.toString(), name: existingUser?.name, email: existingUser?.email, image: existingUser?.image?.url || "", role: existingUser?.role }, config.jwt_access_key as string, config.jwt_access_expire_in as string);
 
     return { accessToken };
 };
