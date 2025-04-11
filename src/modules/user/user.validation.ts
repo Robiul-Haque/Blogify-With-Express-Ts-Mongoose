@@ -29,9 +29,17 @@ const userBlockedSchema = z.object({
     })
 });
 
+const userUpdateInfoSchema = z.object({
+    body: z.object({
+        id: z.string(),
+        name: z.string(),
+    })
+});
+
 export const userValidation = {
     createUserSchema,
     userBookmarkBlogSchema,
     updateAdminSchema,
     userBlockedSchema,
+    userUpdateInfoSchema,
 }

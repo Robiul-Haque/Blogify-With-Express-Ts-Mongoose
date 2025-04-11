@@ -128,6 +128,35 @@ const removeBookmark: RequestHandler = catchAsync(async (req: Request, res: Resp
     });
 });
 
+const getUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params?.id;
+
+    // Call the service method to get user.
+    const result = await userService.getUserInToDB(id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data retrieved successfully",
+        data: result
+    });
+});
+
+const updateUser: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const img = req.file;
+    const data = req.body;
+
+    // Call the service method to update admin info.
+    const result = await userService.updateUserInToDB(img, data);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data update successfully",
+        data: result
+    });
+});
+
 export const userController = {
     signUp,
     getAdminDashboardStatics,
@@ -138,4 +167,6 @@ export const userController = {
     adminDeleteUser,
     addBookmark,
     removeBookmark,
+    getUser,
+    updateUser,
 }

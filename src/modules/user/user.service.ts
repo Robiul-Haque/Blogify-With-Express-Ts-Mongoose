@@ -175,6 +175,52 @@ const removeBookmarkInToDB = async (payload: { user: string, blog: string }) => 
     return res;
 }
 
+const getUserInToDB = async (id: string) => {
+    // Get user data.
+    const res = await User.findById(id).select("_id name email image role");
+    return res;
+}
+
+const updateUserInToDB = async (img: any, payload: TUpdateUser) => {
+    const isExistsUser = await User.findById(payload?.id);
+    if (!isExistsUser) throw new AppError(httpStatus.NOT_FOUND, "User not found");
+
+    // Delete old image and uploaded new image in the cloudinary, add the new image URL & public ID to the user payload.
+    if (isExistsUser?.image?.url && isExistsUser?.image?.publicId) {
+        if (img) {
+            const imagePath = img?.path;
+            const imgName = imagePath.split("/").pop().split(".")[0] || "";
+            const { public_id, secure_url } = await updateImgToCloudinary(imgName, imagePath, isExistsUser?.image?.publicId as string) as { public_id: string, secure_url: string };
+
+            payload.image = {
+                url: secure_url,
+                publicId: public_id,
+            };
+        }
+
+        await User.findByIdAndUpdate(payload?.id, payload);
+    }
+
+    // Upload new image to cloudinary and save image URL, public ID & admin name into DB.
+    if (isExistsUser?.image?.url === null && isExistsUser?.image?.publicId === null) {
+        if (img) {
+            const imagePath = img?.path;
+            const imgName = imagePath.split("/").pop().split(".")[0] || "";
+            const { public_id, secure_url } = await uploadImgToCloudinary(imgName, imagePath) as { public_id: string, secure_url: string };
+
+            payload.image = {
+                url: secure_url,
+                publicId: public_id,
+            };
+        }
+
+        await User.findByIdAndUpdate(payload?.id, payload);
+    }
+
+    const res = await User.findById(payload?.id).select("-_id image name email");
+    return res;
+}
+
 export const userService = {
     signUpIntoDB,
     getAdminDashboardStaticsInToDB,
@@ -185,4 +231,6 @@ export const userService = {
     adminDeleteUserInToDB,
     addBookmarkInToDB,
     removeBookmarkInToDB,
+    getUserInToDB,
+    updateUserInToDB,
 }

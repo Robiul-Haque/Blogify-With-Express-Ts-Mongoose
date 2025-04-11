@@ -12,10 +12,16 @@ const router = Router();
 router.post("/sign-up", upload.single('image'), bodyParser, validateRequest(userValidation.createUserSchema), userController.signUp);
 
 // Endpoint to user add bookmark blog in the database.
-router.patch("/bookmark/add/blog", validateRequest(userValidation.userBookmarkBlogSchema), userController.addBookmark);
+router.patch("/bookmark/add/blog", auth("user"), validateRequest(userValidation.userBookmarkBlogSchema), userController.addBookmark);
 
 // Endpoint to user remove bookmark blog in the database.
-router.patch("/bookmark/remove/blog", validateRequest(userValidation.userBookmarkBlogSchema), userController.removeBookmark);
+router.patch("/bookmark/remove/blog", auth("user"), validateRequest(userValidation.userBookmarkBlogSchema), userController.removeBookmark);
+
+// Endpoint to get user from the database.
+router.get("/get-user/:id", auth("user"), userController.getUser);
+
+// Endpoint to user info update in the database.
+router.patch("/update-user-info", auth("user"), upload.single("image"), bodyParser, validateRequest(userValidation.userUpdateInfoSchema), userController.updateUser);
 
 
 // Endpoint for admin.
