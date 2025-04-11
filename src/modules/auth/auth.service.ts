@@ -32,7 +32,7 @@ const verifyOtpForNewUserIntoDB = async (email: string, otp: string) => {
 
 const signInIntoDB = async (payload: TLoginUser) => {
     const { email, password } = payload;
-
+    
     if (!email || !password) throw new AppError(httpStatus.BAD_REQUEST, "Email and password are required");
 
     const existingUser = await User.findOne({ email });
