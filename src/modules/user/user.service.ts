@@ -217,7 +217,7 @@ const updateUserInToDB = async (img: any, payload: TUpdateUser) => {
         await User.findByIdAndUpdate(payload?.id, payload);
     }
 
-    const res = await User.findById(payload?.id).select("-_id image name email");
+    const res = await User.findById(payload?.id).select("-_id image name");
     return res;
 }
 
