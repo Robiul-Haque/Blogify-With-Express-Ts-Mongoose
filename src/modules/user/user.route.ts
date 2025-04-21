@@ -23,6 +23,9 @@ router.get("/get-user/:id", auth("user"), userController.getUser);
 // Endpoint to user info update in the database.
 router.patch("/update-user-info", auth("user"), upload.single("image"), bodyParser, validateRequest(userValidation.userUpdateInfoSchema), userController.updateUser);
 
+// Endpoint to get user bookmark blog from the database.
+router.get("/get-user-bookmark-blog/:id", auth("user"), userController.getUserAllBookmark);
+
 
 // Endpoint for admin.
 // Endpoint to get admin dashboard statics from the database.

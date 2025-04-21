@@ -9,6 +9,7 @@ import httpStatus from "http-status";
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
 import { Types } from "mongoose";
+import { get } from "http";
 
 const signUpIntoDB = async (img: any, payload: TCreateUser) => {
     // Check if a user already exists with the given email, then delete the uploaded image form cloudinary and update the Otp & otpExpiry or create new user into DB & upload image to cloudinary.
@@ -221,6 +222,12 @@ const updateUserInToDB = async (img: any, payload: TUpdateUser) => {
     return res;
 }
 
+const getUserAllBookmarkInToDB = async (id: string) => {
+    // Get bookmark blog data.
+    const res = await User.findById(id).select("-_id bookmark").populate({ path: "bookmark", select: "title image author createdAt" });
+    return res;
+}
+
 export const userService = {
     signUpIntoDB,
     getAdminDashboardStaticsInToDB,
@@ -233,4 +240,5 @@ export const userService = {
     removeBookmarkInToDB,
     getUserInToDB,
     updateUserInToDB,
+    getUserAllBookmarkInToDB
 }

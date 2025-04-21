@@ -157,6 +157,20 @@ const updateUser: RequestHandler = catchAsync(async (req: Request, res: Response
     });
 });
 
+const getUserAllBookmark: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    // Call the service method to get all bookmark blog.
+    const result = await userService.getUserAllBookmarkInToDB(id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Data retrieved successfully",
+        data: result
+    });
+});
+
 export const userController = {
     signUp,
     getAdminDashboardStatics,
@@ -169,4 +183,5 @@ export const userController = {
     removeBookmark,
     getUser,
     updateUser,
+    getUserAllBookmark,
 }
