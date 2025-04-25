@@ -224,7 +224,7 @@ const updateUserInToDB = async (img: any, payload: TUpdateUser) => {
 
 const getUserAllBookmarkInToDB = async (id: string) => {
     // Get bookmark blog data.
-    const res = await User.findById(id).select("-_id bookmark").populate({ path: "bookmark", select: "title image author createdAt" });
+    const res = await User.findById(id).select("-_id bookmark").populate({ path: "bookmark", select: "title image author createdAt", populate: { path: "author", select: "-_id name" } });
     return res;
 }
 
