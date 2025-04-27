@@ -227,6 +227,11 @@ const getUserAllBookmarkInToDB = async (id: string) => {
     const res = await User.findById(id).select("-_id bookmark").populate({ path: "bookmark", select: "title image author createdAt", populate: { path: "author", select: "-_id name" } });
     return res;
 }
+const deleteBookmarkInToDB = async (userId: string, blogId: string) => {
+    // Remove bookmark blog data.
+    await User.findByIdAndUpdate(userId, { $pull: { bookmark: blogId } }, { new: true });
+    return null;
+}
 
 export const userService = {
     signUpIntoDB,
@@ -240,5 +245,6 @@ export const userService = {
     removeBookmarkInToDB,
     getUserInToDB,
     updateUserInToDB,
-    getUserAllBookmarkInToDB
+    getUserAllBookmarkInToDB,
+    deleteBookmarkInToDB,
 }

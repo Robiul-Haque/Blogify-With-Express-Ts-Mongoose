@@ -26,6 +26,9 @@ router.patch("/update-user-info", auth("user"), upload.single("image"), bodyPars
 // Endpoint to get user bookmark blog from the database.
 router.get("/get-user-bookmark-blog/:id", auth("user"), userController.getUserAllBookmark);
 
+// Endpoint to get user delete bookmark blog from the database.
+router.delete("/delete-bookmark-blog", auth("user"), userController.deleteBookmark);
+
 
 // Endpoint for admin.
 // Endpoint to get admin dashboard statics from the database.

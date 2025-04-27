@@ -4,6 +4,7 @@ import { TCreateUser } from "./user.interface";
 import { userService } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
+import { userValidation } from "./user.validation";
 
 const signUp: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     const img = req.file;
@@ -171,6 +172,20 @@ const getUserAllBookmark: RequestHandler = catchAsync(async (req: Request, res: 
     });
 });
 
+const deleteBookmark: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+    const { userId, blogId } = req.query;
+
+    // Call the service method to delete bookmark blog.
+    const result = await userService.deleteBookmarkInToDB(userId as string, blogId as string);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Bookmark delete successfully",
+        data: result
+    });
+});
+
 export const userController = {
     signUp,
     getAdminDashboardStatics,
@@ -184,4 +199,5 @@ export const userController = {
     getUser,
     updateUser,
     getUserAllBookmark,
+    deleteBookmark,
 }
