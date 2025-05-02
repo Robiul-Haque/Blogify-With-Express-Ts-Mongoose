@@ -182,7 +182,7 @@ const deleteBookmark: RequestHandler = catchAsync(async (req: Request, res: Resp
         statusCode: httpStatus.OK,
         success: true,
         message: "Bookmark delete successfully",
-        data: result
+        data: 'result'
     });
 });
 

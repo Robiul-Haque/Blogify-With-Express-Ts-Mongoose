@@ -15,7 +15,7 @@ router.post("/sign-up", upload.single('image'), bodyParser, validateRequest(user
 router.patch("/bookmark/add/blog", auth("user"), validateRequest(userValidation.userBookmarkBlogSchema), userController.addBookmark);
 
 // Endpoint to user remove bookmark blog in the database.
-router.patch("/bookmark/remove/blog", auth("user"), validateRequest(userValidation.userBookmarkBlogSchema), userController.removeBookmark);
+router.patch("/bookmark/remove/blog", auth("user"), validateRequest(userValidation.userBookmarkBlogSchema), userController.deleteBookmark);
 
 // Endpoint to get user from the database.
 router.get("/get-user/:id", auth("user"), userController.getUser);

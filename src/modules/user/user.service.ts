@@ -8,7 +8,7 @@ import AppError from "../../errors/appError";
 import httpStatus from "http-status";
 import { updateImgToCloudinary } from "../../utils/updateImgToCloudinary";
 import { deleteImgOnCloudinary } from "../../utils/deleteImgToCloudinary";
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { get } from "http";
 
 const signUpIntoDB = async (img: any, payload: TCreateUser) => {
@@ -228,6 +228,12 @@ const getUserAllBookmarkInToDB = async (id: string) => {
     return res;
 }
 const deleteBookmarkInToDB = async (userId: string, blogId: string) => {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new AppError(httpStatus.NOT_FOUND, "Invalid User ID");
+    } else if (!mongoose.Types.ObjectId.isValid(blogId)) {
+        throw new AppError(httpStatus.NOT_FOUND, "Invalid Blog ID");
+    }
+
     // Remove bookmark blog data.
     await User.findByIdAndUpdate(userId, { $pull: { bookmark: blogId } }, { new: true });
     return null;
