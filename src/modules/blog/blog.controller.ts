@@ -117,8 +117,8 @@ const getAllBlog: RequestHandler = catchAsync(async (req: Request, res: Response
 
 const getBlog: RequestHandler = catchAsync(async (req: Request, res: Response) => {
     // Call the service method to get published single blog in the database.
-    const { id } = req.params;
-    const result = await blogService.getBlogIntoDB(id);
+    const { blogId, userId } = req.params;
+    const result = await blogService.getBlogIntoDB(blogId, userId);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,

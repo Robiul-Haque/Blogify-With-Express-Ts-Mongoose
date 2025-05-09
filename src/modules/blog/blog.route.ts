@@ -37,6 +37,6 @@ router.delete("/admin-delete-blog/:id", auth("admin"), blogController.adminDelet
 router.get("/get-all-blog", blogController.getAllBlog);
 
 // Endpoint for get published single blog.
-router.get("/get-blog/:id", blogController.getBlog);
+router.get("/get-blog/:blogId/:userId", blogController.getBlog);
 
 export const blogRoutes = router;
