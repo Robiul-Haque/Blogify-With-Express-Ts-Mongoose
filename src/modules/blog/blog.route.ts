@@ -8,7 +8,6 @@ import auth from "../../middleware/auth";
 
 const router = Router();
 
-
 // Blog endpoint for admin.
 // Endpoint for admin create blog. Handles image upload, validates request body, and creates a new blog.
 router.post("/admin-create-blog", auth("admin"), upload.single("image"), bodyParser, validateRequest(blogValidation.adminCreateBlogSchema), blogController.adminCreateBlog);
