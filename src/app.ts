@@ -5,7 +5,7 @@ import notFound from './middleware/notFound';
 import globalErrorHandler from './middleware/globalErrorHandler';
 import router from './router';
 const app: Application = express();
-const allowedOrigins = ["https://blogify0.netlify.app/", "http://localhost:5173", "http://localhost:5173"];
+const allowedOrigins = ["https://blogify0.netlify.app", "http://localhost:5173", "http://localhost:5173"];
 
 app.use(express.json());
 app.use(cors({
