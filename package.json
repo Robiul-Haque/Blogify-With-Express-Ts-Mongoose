@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/server.js"
   },
-  "author": "",
+  "author": "Robiul Haque",
   "license": "ISC",
   "description": "",
   "dependencies": {
